@@ -52,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'kodvote.urls'
+ROOT_URLCONF = 'kod-vote.urls'
 
 TEMPLATES = [
     {
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'kodvote.wsgi.application'
+WSGI_APPLICATION = 'kod-vote.wsgi.application'
 
 
 # Database
