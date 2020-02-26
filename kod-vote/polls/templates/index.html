@@ -7,7 +7,7 @@
                 {% for poll in polls_avaliable %}
                     <a href="{% url 'vote' poll.id %}">
                         <div class="col-3">
-                            <div class="card" style="width: 18rem;">
+                            <div class="card">
                                 <img class="card-img-top" src="..." alt="Card image cap">
                                 <div class="card-body">
                                   <h5 class="card-title">{{ poll.subject }}</h5>
@@ -35,7 +35,7 @@
             <div class="row">
                 {% for poll in polls_closed %}
                     <div class="col-3">
-                        <div class="card" style="width: 18rem;">
+                        <div class="card">
                             <img class="card-img-top" src="..." alt="Card image cap">
                             <div class="card-body">
                             <h5 class="card-title">{{ poll.subject }}</h5>
