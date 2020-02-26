@@ -1,16 +1,19 @@
 from django.db import models
-from accounts.models import User
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Poll(models.Model):
-    subject = models.CharField(max_length=255)
+    subject = models.CharField(max_length=255, null=False)
     detail = models.TextField()
     #picture
     start_date = models.TimeField(auto_now=True)
     end_date = models.TimeField()
-    password = models.CharField(max_length=255)
-    create_by = models.CharField(max_length=255)
+    password = models.CharField(max_length=255, null=True)
+    create_by = models.ForeignKey(User, on_delete=models.CASCADE)
     create_date = models.TimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.subject}'
 
 class Poll_Choice(models.Model):
     subject = models.CharField(max_length=255)

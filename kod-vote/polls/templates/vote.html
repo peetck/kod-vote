@@ -1,5 +1,7 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    Vote : {{ poll_id }}
+    <h1>{{ poll.subject }}</h1>
+    <h2>{{ poll.detail }}</h2>
+    <a class='btn btn-warning' href="">Vote</a>
 {% endblock %}

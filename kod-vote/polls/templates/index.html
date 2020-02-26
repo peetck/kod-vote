@@ -1,45 +1,60 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-
     <h1>Avaliable</h1>
         <div class="container">
             <div class="row">
-                <div class="col-3">
-                    Box
-                </div>
-                <div class="col-3">
-                    Box
-                </div>
-                <div class="col-3">
-                    Box
-                </div>
-                <div class="col-3">
-                    Box
-                </div>
-                <div class="col-3">
-                    Box
-                </div>
+                {% for poll in polls_avaliable %}
+                    <a href="{% url 'vote' poll.id %}">
+                        <div class="col-3">
+                            <div class="card" style="width: 18rem;">
+                                <img class="card-img-top" src="..." alt="Card image cap">
+                                <div class="card-body">
+                                  <h5 class="card-title">{{ poll.subject }}</h5>
+                                  <p class="card-text">
+                                      {{ poll.detail }}
+                                  </p>
+                                </div>
+                                <!-- <ul class="list-group list-group-flush">
+                                  <li class="list-group-item">Cras justo odio</li>
+                                  <li class="list-group-item">Dapibus ac facilisis in</li>
+                                  <li class="list-group-item">Vestibulum at eros</li>
+                                </ul>
+                                <div class="card-body">
+                                  <a href="#" class="card-link">Card link</a>
+                                  <a href="#" class="card-link">Another link</a>
+                                </div> -->
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
             </div>
         </div>
     <h1>Closed</h1>
         <div class="container">
             <div class="row">
-                <div class="col-3">
-                    Box
-                </div>
-                <div class="col-3">
-                    Box
-                </div>
-                <div class="col-3">
-                    Box
-                </div>
-                <div class="col-3">
-                    Box
-                </div>
-                <div class="col-3">
-                    Box
-                </div>
+                {% for poll in polls_closed %}
+                    <div class="col-3">
+                        <div class="card" style="width: 18rem;">
+                            <img class="card-img-top" src="..." alt="Card image cap">
+                            <div class="card-body">
+                            <h5 class="card-title">{{ poll.subject }}</h5>
+                            <p class="card-text">
+                                {{ poll.detail }}
+                            </p>
+                            </div>
+                            <!-- <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                            </ul>
+                            <div class="card-body">
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
+                            </div> -->
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
 {% endblock %}

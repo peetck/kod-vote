@@ -1,5 +1,19 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    <h1>Login page</h1>
+    <h1>Login</h1>
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="exampleInputEmail1">Username</label>
+            <input type="text" class="form-control" name='username' placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Password</label>
+            <input type="password" class="form-control" name='password' placeholder="Enter password">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your password with anyone else.</small>
+        </div>
+        <button type="submit" class='btn btn-primary'>Login</button>
+    </form>
+
 {% endblock %}
