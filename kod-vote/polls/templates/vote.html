@@ -1,7 +1,23 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    <h1>{{ poll.subject }}</h1>
-    <h2>{{ poll.detail }}</h2>
+    <h1 class='mb-5'>{{ poll.subject }}</h1>
+    <p class='mb-5'>{{ poll.detail }}</p>
+    <h1 class='mb-5'>Choices</h1>
+
+    <div class='container text-center'>
+        <form action="">
+            <div class="row">
+                {% for choice in choices %}
+                    <div class="col-6">
+                        <button class='btn btn-primary btn-block'>{{choice.subject}}</button>
+                    </div>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+
+
+    <br>
     <a class='btn btn-warning' href="">Vote</a>
 {% endblock %}

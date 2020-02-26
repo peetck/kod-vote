@@ -1,57 +1,71 @@
 {% extends 'base_layout.html' %}
-
+{% load static %}
 {% block content %}
-    <h1>Avaliable</h1>
+    <div class="jumbotron">
+        <h1 class='display-4'>ยินดีต้อนรับเข้าสู่ระบบ Kod Vote</h1>
+        <p class="lead">ระบบนี้เป็นส่วนหนึ่งของวิชา Web programming KMITL 2019</p>
+        <hr class="my-4">
+        {% if user.is_authenticated %}
+            <p>Signed is as {{ user }}</p>
+        {% else %}
+            <p>คุณยังไม่ได้ Login</p>
+        {% endif %}
+    </div>
+    <h1 class='mb-5'>
+        Open <img width='70' src="{% static 'images/open.png' %}" alt="Can't Load img">
+    </h1>
         <div class="container">
             <div class="row">
                 {% for poll in polls_avaliable %}
-                    <a href="{% url 'vote' poll.id %}">
-                        <div class="col-3">
-                            <div class="card">
-                                <img class="card-img-top" src="..." alt="Card image cap">
-                                <div class="card-body">
-                                  <h5 class="card-title">{{ poll.subject }}</h5>
-                                  <p class="card-text">
-                                      {{ poll.detail }}
-                                  </p>
-                                </div>
-                                <!-- <ul class="list-group list-group-flush">
-                                  <li class="list-group-item">Cras justo odio</li>
-                                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                                  <li class="list-group-item">Vestibulum at eros</li>
-                                </ul>
-                                <div class="card-body">
-                                  <a href="#" class="card-link">Card link</a>
-                                  <a href="#" class="card-link">Another link</a>
-                                </div> -->
+                    <div class="col-md-3 my-3">
+                        <div class="card h-100 w-100">
+                            <img class="py-2 card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ poll.subject }}</h5>
+                                <p class="card-text">
+                                    {{ poll.detail|truncatechars:15 }}
+                                </p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><a href="{% url 'vote' poll.id %}" class='btn btn-warning'>Vote</a></li>
+                            </ul>
+                            <div class="card-footer">
+                                <small class="text-muted">
+                                    Start at : {{ poll.start_date }} <br>
+                                    Close at : {{ poll.end_date }} <br>
+                                    Create by : {{ poll.create_by }}
+                                </small>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 {% endfor %}
             </div>
         </div>
-    <h1>Closed</h1>
+    <hr>
+    <h1 class='my-5'>
+        Closed <img width='70' src="{% static 'images/closed.png' %}" alt="Can't Load img">
+    </h1>
         <div class="container">
             <div class="row">
                 {% for poll in polls_closed %}
-                    <div class="col-3">
-                        <div class="card">
-                            <img class="card-img-top" src="..." alt="Card image cap">
+                    <div class="col-md-3 my-3">
+                        <div class="card h-100 w-100">
+                            <img class="py-2 card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
                             <div class="card-body">
-                            <h5 class="card-title">{{ poll.subject }}</h5>
-                            <p class="card-text">
-                                {{ poll.detail }}
-                            </p>
+                                <h5 class="card-title">{{ poll.subject }}</h5>
+                                <p class="card-text">
+                                    {{ poll.detail|truncatechars:15 }}
+                                </p>
                             </div>
-                            <!-- <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><button class='btn btn-warning'>Result</button></li>
                             </ul>
-                            <div class="card-body">
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                            </div> -->
+                            <div class="card-footer">
+                                <small class="text-muted">
+                                    Expired At : {{ poll.end_date }}<br>
+                                    Create by : {{ poll.create_by }}
+                                </small>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}

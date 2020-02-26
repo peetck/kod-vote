@@ -17,7 +17,10 @@ def create_view(request):
 
 def vote_view(request, poll_id):
     poll = Poll.objects.get(id=poll_id)
-    context = {'poll' : poll}
+    if (poll.password != ''): # if poll have password
+        print(poll.subject)
+    choices = poll.poll_choice_set.all()
+    context = {'poll' : poll, 'choices' : choices}
     return render(request, 'vote.html', context)
 
 def edit_view(request, poll_id):

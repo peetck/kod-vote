@@ -5,10 +5,10 @@ from django.contrib.auth.models import User
 class Poll(models.Model):
     subject = models.CharField(max_length=255, null=False)
     detail = models.TextField()
-    #picture
+    picture = models.ImageField(default='default.png')
     start_date = models.TimeField(auto_now=True)
     end_date = models.TimeField()
-    password = models.CharField(max_length=255, null=True)
+    password = models.CharField(max_length=255, blank=True, default='')
     create_by = models.ForeignKey(User, on_delete=models.CASCADE)
     create_date = models.TimeField(auto_now=True)
 
@@ -17,8 +17,11 @@ class Poll(models.Model):
 
 class Poll_Choice(models.Model):
     subject = models.CharField(max_length=255)
-    #image
+    image = models.ImageField(default='default_choice.jpg')
     poll_id = models.ForeignKey(Poll, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'Choice : {self.subject}'
 
 class Poll_Vote(models.Model):
     poll_id = models.ForeignKey(Poll, on_delete=models.CASCADE)
