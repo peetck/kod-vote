@@ -4,12 +4,30 @@
     <h1>แก้ไข Poll ({{ poll.subject }})</h1>
     <br>
 
-    <div class="container">
+    <div class="container text-center">
         <div class="row">
             {% for choice in poll.poll_choice_set.all %}
-                <div class="col-6">
-                    <th> {{choice.subject}} </th>
-                    <img class='img-fluid img-thumbnail w-25' src="{{ choice.image.url }}" alt="">
+                <div class="col-md-3 my-3">
+                    <div class="card h-100 w-100">
+                        <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{ choice.subject }}
+                            </p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <a href="{% url 'choice_delete' choice.id %}" class='btn btn-danger'>Remove</a>
+                            </li>
+                        </ul>
+                        <!-- <div class="card-footer">
+                            <small class="text-muted">
+                                Start at : {{ poll.start_date }} <br>
+                                Close at : {{ poll.end_date }} <br>
+                                Create by : {{ poll.create_by }}
+                            </small>
+                        </div> -->
+                    </div>
                 </div>
             {% endfor %}
 

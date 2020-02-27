@@ -8,14 +8,26 @@
         {% csrf_token %}
         <div class='container text-center'>
             <div class="row">
-                <select class="form-control form-control-lg" name="choice">
                 {% for choice in choices %}
-                    <div class="col-6 my-2">
-                        <option value='{{ choice.id }}'> {{ choice.subject }} </option>
+                <div class="col-md-3 my-3">
+                    <div class="card h-100 w-100">
+                        <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{ choice.subject }}
+                            </p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <a href="{% url 'vote' poll.id %}" class='btn btn-primary'>Vote</a>
+                            </li>
+                        </ul>
                     </div>
+                </div>
                 {% endfor %}
-                </select>
             </div>
+
+
             {% if not already_vote %}
                 <button type="submit" class='btn btn-warning my-5'>Vote</button>
             {% else %}

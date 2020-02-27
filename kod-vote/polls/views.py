@@ -82,7 +82,7 @@ def close_view(request, poll_id):
     return redirect('mypolls')
 
 @login_required
-def delete_view(request, poll_id):
+def poll_delete_view(request, poll_id):
     poll = Poll.objects.get(id=poll_id)
 
     if poll.create_by == request.user:
@@ -97,3 +97,13 @@ def add_choice_view(request, poll_id):
         'poll' : poll
     }
     return render(request, 'add_choice.html', context)
+
+@login_required
+def choice_delete_view(request, choice_id):
+    choice = Poll_Choice.objects.get(id=choice_id)
+
+    poll_id = choice.poll_id.id
+
+    choice.delete()
+
+    return redirect('edit', poll_id=poll_id)
