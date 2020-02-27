@@ -29,9 +29,6 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
                                     <a href="{% url 'vote' poll.id %}" class='btn btn-warning'>Vote</a>
-                                    {% if user.is_authenticated and user == poll.create_by %}
-                                        <a href="{% url 'edit' poll.id %}" class='btn btn-danger'>Edit</a>
-                                    {% endif %}
                                 </li>
                             </ul>
                             <div class="card-footer">

@@ -1,0 +1,35 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <h1>My Profile</h1>
+    <div class="container">
+        <div class="row">
+            {% for poll in polls %}
+                <div class="col-md-3 my-3">
+                    <div class="card h-100 w-100">
+                        <img class="py-2 card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ poll.subject }}</h5>
+                            <p class="card-text">
+                                {{ poll.detail|truncatechars:15 }}
+                            </p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <a href="{% url 'vote' poll.id %}" class='btn btn-warning'>Edit</a>
+                                <a href="{% url 'vote' poll.id %}" class='btn btn-warning'>Close</a>
+                                <a href="{% url 'vote' poll.id %}" class='btn btn-danger'>Delete</a>
+                            </li>
+                        </ul>
+                        <div class="card-footer">
+                            <small class="text-muted">
+                                Start at : {{ poll.start_date }} <br>
+                                Close at : {{ poll.end_date }} <br>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

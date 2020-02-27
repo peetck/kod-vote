@@ -29,7 +29,7 @@
             </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a href="" class="nav-link">Profile</a>
+                    <a href="{% url 'myprofile' %}" class="nav-link">MyProfile</a>
                 </li>
             {% endif %}
           </ul>

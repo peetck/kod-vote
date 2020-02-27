@@ -4,15 +4,23 @@
     <h1 class='mb-5'>{{ poll.subject }}</h1>
     <p class='mb-5'>{{ poll.detail }}</p>
     <h1 class='mb-5'>Choices</h1>
-
-    <div class='container text-center'>
-        <div class="row">
-            {% for choice in choices %}
-                <div class="col-6 my-2">
-                    <button class="btn btn-primary btn-block"> {{ choice.subject }} </button>                        
-                </div>
-            {% endfor %}
+    <form action="{% url 'vote' poll.id %}" method="POST">
+        {% csrf_token %}
+        <div class='container text-center'>
+            <div class="row">
+                <select class="form-control form-control-lg" name="choice">
+                {% for choice in choices %}
+                    <div class="col-6 my-2">
+                        <option value='{{ choice.id }}'> {{ choice.subject }} </option>
+                    </div>
+                {% endfor %}
+                </select>
+            </div>
+            {% if not already_vote %}
+                <button type="submit" class='btn btn-warning my-5'>Vote</button>
+            {% else %}
+                <p class='text-success mt-5'> {{ already_vote }}</p>
+            {% endif %}
         </div>
-        <button type="submit" class='btn btn-warning my-5'>Vote</button>
-    </div>
+    </form>
 {% endblock %}
