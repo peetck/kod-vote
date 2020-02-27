@@ -10,6 +10,13 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Kanit:300&display=swap');
+        @import "dist/css/propeller.min.css";
+
+/* Bootstrap datetimepicker */
+@import "datetimepicker/css/bootstrap-datetimepicker.css";
+
+/* Propeller datetimepicker */
+@import "datetimepicker/css/pmd-datetimepicker.css";
         *{
             font-family: 'Kanit';
         }
@@ -42,7 +49,6 @@
           </ul>
         </div>
       </nav>
-
 
     <div class="container my-5">
         {% block content %}

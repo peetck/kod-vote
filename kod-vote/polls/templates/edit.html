@@ -1,5 +1,21 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    Edit {{ poll.subject }} create by : {{ poll.create_by }}
+    <h1>แก้ไข Poll ({{ poll.subject }})</h1>
+    <br>
+
+    <div class="container">
+        <div class="row">
+            {% for choice in poll.poll_choice_set.all %}
+                <div class="col-6">
+                    <th> {{choice.subject}} </th>
+                    <img class='img-fluid img-thumbnail w-25' src="{{ choice.image.url }}" alt="">
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <br>
+    <a href="{% url 'add_choice' poll.id %}" class='btn btn-primary'>เพิ่มตัวเลือก</a>
 {% endblock %}

@@ -89,3 +89,11 @@ def delete_view(request, poll_id):
         poll.delete()
 
     return redirect('mypolls')
+
+@login_required
+def add_choice_view(request, poll_id):
+    poll = Poll.objects.get(id=poll_id)
+    context = {
+        'poll' : poll
+    }
+    return render(request, 'add_choice.html', context)

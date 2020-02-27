@@ -20,7 +20,7 @@ class Poll(models.Model):
 
 class Poll_Choice(models.Model):
     subject = models.CharField(max_length=255, null=False)
-    image = models.ImageField(default='poll/default_choice.jpg', upload_to='choice/')
+    image = models.ImageField(default='choice/default_choice.jpg', upload_to='choice/')
     poll_id = models.ForeignKey(Poll, on_delete=models.CASCADE)
 
     def __str__(self):

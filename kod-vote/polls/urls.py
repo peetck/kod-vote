@@ -9,4 +9,5 @@ urlpatterns = [
     path('edit/<int:poll_id>', views.edit_view, name='edit'),
     path('close/<int:poll_id>', views.close_view, name='close'),
     path('delete/<int:poll_id>', views.delete_view, name='delete'),
+    path('add_choice/<int:poll_id>', views.add_choice_view, name='add_choice')
 ]
