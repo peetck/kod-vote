@@ -26,5 +26,6 @@ def vote_view(request, poll_id):
     return render(request, 'vote.html', context)
 
 def edit_view(request, poll_id):
-    context = {'poll_id' : poll_id}
+    poll = Poll.objects.get(id=poll_id)
+    context = {'poll' : poll}
     return render(request, 'edit.html', context)
