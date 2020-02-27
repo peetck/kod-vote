@@ -6,18 +6,13 @@
     <h1 class='mb-5'>Choices</h1>
 
     <div class='container text-center'>
-        <form action="">
-            <div class="row">
-                {% for choice in choices %}
-                    <div class="col-6">
-                        <button class='btn btn-primary btn-block'>{{choice.subject}}</button>
-                    </div>
-                {% endfor %}
-            </div>
-        </form>
+        <div class="row">
+            {% for choice in choices %}
+                <div class="col-6 my-2">
+                    <button class="btn btn-primary btn-block"> {{ choice.subject }} </button>                        
+                </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class='btn btn-warning my-5'>Vote</button>
     </div>
-
-
-    <br>
-    <a class='btn btn-warning' href="">Vote</a>
 {% endblock %}

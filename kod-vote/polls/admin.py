@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Poll, Poll_Choice, Poll_Vote
+from django.contrib.auth.models import Permission
 # Register your models here.
 
 class ChoiceInline(admin.StackedInline): # inline
@@ -37,3 +38,5 @@ class Poll_VoteAdmin(admin.ModelAdmin):
 admin.site.register(Poll, PollAdmin)
 admin.site.register(Poll_Choice, Poll_ChoiceAdmin)
 admin.site.register(Poll_Vote, Poll_VoteAdmin)
+
+admin.site.register(Permission)

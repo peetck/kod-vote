@@ -17,6 +17,8 @@ def create_view(request):
 
 def vote_view(request, poll_id):
     poll = Poll.objects.get(id=poll_id)
+    if (request.method == 'POST'): # check what choice that ppl vote
+        print(request.POST)
     if (poll.password != ''): # if poll have password
         print(poll.subject)
     choices = poll.poll_choice_set.all()
