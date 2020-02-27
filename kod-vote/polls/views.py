@@ -42,16 +42,9 @@ def create_view(request):
     return render(request, 'create.html', {'time' : time})
 
 @login_required
-def vote_view(request, poll_id):
+def detail_view(request, poll_id):
     context = {}
     poll = Poll.objects.get(id=poll_id)
-    if request.method == 'POST': # check what choice that ppl vote
-        choice = Poll_Choice.objects.get(id=request.POST.get('choice'))
-        vote = Poll_Vote.objects.create(
-            poll_id=poll,
-            choice_id=choice,
-            vote_by=request.user
-        )
     if poll.password != '': # if poll have password
         print(poll.subject)
 
@@ -63,8 +56,19 @@ def vote_view(request, poll_id):
     choices = poll.poll_choice_set.all()
     context['poll'] = poll
     context['choices'] = choices
-    return render(request, 'vote.html', context)
+    return render(request, 'detail.html', context)
 
+@login_required
+def vote_view(request, choice_id):
+    choice = Poll_Choice.objects.get(id=choice_id)
+    poll = choice.poll_id
+    vote = Poll_Vote.objects.create(
+        poll_id=poll,
+        choice_id=choice,
+        vote_by=request.user
+    )
+    return redirect('detail', poll_id=poll.id)
+    
 @login_required
 def edit_view(request, poll_id):
     poll = Poll.objects.get(id=poll_id)

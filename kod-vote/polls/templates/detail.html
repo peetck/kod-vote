@@ -1,0 +1,35 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <h1 class='mb-5'>{{ poll.subject }}</h1>
+    <p class='mb-5'>{{ poll.detail }}</p>
+    <h1 class='mb-5'>Choices</h1>
+    <div class='container text-center'>
+        <div class="row">
+            {% for choice in choices %}
+            <div class="col-md-3 my-3">
+                <div class="card h-100 w-100">
+                    <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">
+                            {{ choice.subject }}
+                        </p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            {% if not already_vote %}
+                                <a href="{% url 'vote' choice.id %}" class='btn btn-primary'>Vote</a>
+                            {% else %}
+                                <p class='text-success mt-5'> {{ already_vote }}</p>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% if already_vote %}
+        <h1>แสดงข้อมูลผลลัพธ์การโหวต</h1>
+    {% endif %}
+{% endblock %}
