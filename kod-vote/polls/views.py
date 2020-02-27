@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Poll
+from django.contrib.auth.decorators import login_required, permission_required
 import datetime
 
 # Create your views here.
@@ -12,6 +13,7 @@ def index_view(request):
     }
     return render(request, 'index.html', context)
 
+@login_required
 def create_view(request):
     return render(request, 'create.html')
 

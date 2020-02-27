@@ -2,5 +2,12 @@
 
 
 {% block content %}
-    <h1>This is create poll Page</h1>
+    <h1>Create a Poll</h1>
+    <form action="{% url 'create' %}" method="POST">
+        <div class="form-group">
+            <label>Poll Name</label>
+            <input type="text" class="form-control" name='poll_name' placeholder="Enter poll name">
+        </div>
+        <button type="submit" class='btn btn-primary'>Create</button>
+    </form>
 {% endblock %}
