@@ -2,14 +2,15 @@
 {% load static %}
 {% block content %}
     <div class="jumbotron">
-        <h1 class='display-4'>ยินดีต้อนรับเข้าสู่ระบบ Kod Vote</h1>
+        <h1 class='display-4'>ยินดีต้อนรับเข้าสู่ระบบ โครตโหวต</h1>
         <p class="lead">ระบบนี้เป็นส่วนหนึ่งของวิชา Web programming KMITL 2019</p>
         <hr class="my-4">
         {% if user.is_authenticated %}
-            <p>Signed is as {{ user }}</p>
+            <p>ยินดีต้อนรับ {{ user }}</p>
         {% else %}
             <p>คุณยังไม่ได้ Login</p>
         {% endif %}
+        <a href="{% url 'create' %}" class='btn btn-success'>สร้าง Poll</a>
     </div>
     <h1 class='mb-5'>
         Open <img width='70' src="{% static 'images/open.png' %}" alt="Can't Load img">
@@ -19,7 +20,7 @@
                 {% for poll in polls_avaliable %}
                     <div class="col-md-3 my-3">
                         <div class="card h-100 w-100">
-                            <img class="py-2 card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
+                            <img class=" card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title">{{ poll.subject }}</h5>
                                 <p class="card-text">
@@ -52,7 +53,7 @@
                 {% for poll in polls_closed %}
                     <div class="col-md-3 my-3">
                         <div class="card h-100 w-100">
-                            <img class="py-2 card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
+                            <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title">{{ poll.subject }}</h5>
                                 <p class="card-text">

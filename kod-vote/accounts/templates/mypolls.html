@@ -1,7 +1,7 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    <h1>My Profile</h1>
+    <h1>Your Polls</h1>
     <div class="container">
         <div class="row">
             {% for poll in polls %}
@@ -16,9 +16,8 @@
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                <a href="{% url 'vote' poll.id %}" class='btn btn-warning'>Edit</a>
-                                <a href="{% url 'vote' poll.id %}" class='btn btn-warning'>Close</a>
-                                <a href="{% url 'vote' poll.id %}" class='btn btn-danger'>Delete</a>
+                                <a href="{% url 'edit' poll.id %}" class='btn btn-warning'>Edit</a>
+                                <a href="{% url 'delete' poll.id %}" class='btn btn-danger'>Delete</a>
                             </li>
                         </ul>
                         <div class="card-footer">

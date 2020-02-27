@@ -1,13 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Poll, Poll_Vote, Poll_Choice
 from django.contrib.auth.decorators import login_required, permission_required
 import datetime
+from django.conf import settings
 
 # Create your views here.
 @login_required
 def index_view(request):
-    polls_avaliable = Poll.objects.filter(end_date__gt=datetime.datetime.now())
-    polls_closed = Poll.objects.filter(end_date__lte=datetime.datetime.now())
+    polls_avaliable = Poll.objects.filter(end_date__gt=datetime.datetime.now()).order_by('-start_date')
+    polls_closed = Poll.objects.filter(end_date__lte=datetime.datetime.now()).order_by('-end_date')
     context = {
         'polls_avaliable' : polls_avaliable,
         'polls_closed' : polls_closed
@@ -18,13 +19,16 @@ def index_view(request):
 def create_view(request):
     if request.method == 'POST':
         subject = request.POST.get('subject')
-        detail = request.POST.get('subject')
-        picture = request.FILES['picture']
+        detail = request.POST.get('detail')
+        try:
+            picture = request.FILES['picture']
+        except:
+            picture = settings.MEDIA_ROOT + '/poll/default.png'
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
         password = request.POST.get('password')
 
-        Poll.objects.create(
+        poll = Poll.objects.create(
             subject=subject,
             detail=detail,
             picture=picture,
@@ -33,7 +37,9 @@ def create_view(request):
             password=password,
             create_by=request.user
         )
-    return render(request, 'create.html')
+        return redirect('mypolls')
+    time = datetime.datetime.now()
+    return render(request, 'create.html', {'time' : time})
 
 @login_required
 def vote_view(request, poll_id):
@@ -64,3 +70,22 @@ def edit_view(request, poll_id):
     poll = Poll.objects.get(id=poll_id)
     context = {'poll' : poll}
     return render(request, 'edit.html', context)
+
+@login_required
+def close_view(request, poll_id):
+    poll = Poll.objects.get(id=poll_id)
+
+    if poll.create_by == request.user:
+        poll.end_date = datetime.datetime.now()
+        poll.save()
+
+    return redirect('mypolls')
+
+@login_required
+def delete_view(request, poll_id):
+    poll = Poll.objects.get(id=poll_id)
+
+    if poll.create_by == request.user:
+        poll.delete()
+
+    return redirect('mypolls')

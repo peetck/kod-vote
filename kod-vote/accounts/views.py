@@ -14,7 +14,7 @@ def login_view(request):
         if (user):
             login(request, user)
             next_url = request.POST.get('next_url')
-            if (next_url and next_url != '/accounts/logout/'):
+            if (next_url != None and next_url != '/accounts/logout/' or '/accounts/login/'):
                 return redirect(next_url)
             else:
                 return redirect('index')
@@ -55,6 +55,6 @@ def signup_view(request):
 
 
 @login_required
-def my_profile_view(request):
+def my_polls_view(request):
     polls = Poll.objects.filter(create_by=request.user)
-    return render(request, 'myprofile.html', {'polls' : polls})
+    return render(request, 'mypolls.html', {'polls' : polls})

@@ -7,7 +7,7 @@ from django.db import models
 
 class Poll(models.Model):
     subject = models.CharField(max_length=255, null=False)
-    detail = models.TextField()
+    detail = models.TextField(null=False)
     picture = models.ImageField(default='poll/default.png', upload_to='poll/')
     start_date = models.DateTimeField(default=datetime.now)
     end_date = models.DateTimeField()
@@ -19,7 +19,7 @@ class Poll(models.Model):
         return f'{self.subject}'
 
 class Poll_Choice(models.Model):
-    subject = models.CharField(max_length=255)
+    subject = models.CharField(max_length=255, null=False)
     image = models.ImageField(default='poll/default_choice.jpg', upload_to='choice/')
     poll_id = models.ForeignKey(Poll, on_delete=models.CASCADE)
 
