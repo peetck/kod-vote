@@ -18,6 +18,7 @@ def login_view(request):
                 return redirect(next_url)
             else:
                 return redirect('index')
+        context['error'] = 'error'
     next_url = request.GET.get('next')
     context['next_url'] = next_url
     return render(request, 'login.html', context)

@@ -23,7 +23,7 @@
                             {% if not already_vote and poll.end_date|date:'Y-m-d H:i' > now|date:'Y-m-d H:i' %}
                                 <a href="{% url 'vote' choice.id %}" class='btn btn-warning'>โหวต</a>
                             {% else %}
-                                <p class='text-success mt-5'> {{ already_vote }}</p>
+                                <p class='text-success mt-5'> คุณได้โหวตไปแล้ว </p>
                             {% endif %}
                         </li>
                     </ul>
@@ -39,5 +39,7 @@
                 <li>{{ vote.vote_by }} โหวต {{ vote.choice_id }}</li>
             {% endfor %}
         </ul>
+        <hr>
+        {{ graph|safe }}
     {% endif %}
 {% endblock %}

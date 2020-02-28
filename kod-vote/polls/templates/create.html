@@ -15,25 +15,28 @@
         <div class="form-row">
             <div class="form-group col-md-3">
                 <label for="start_date">เริ่มโหวตได้ตอน</label>
-                <input type="datetime-local" class="form-control" id="start_date" name='start_date'>
+                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
             <div class="form-group col-md-3">
-                <label for="end_date">จบ</label>
-                <input type="datetime-local" class="form-control" id="end_date" name='end_date'>
+                <label for="end_date">เวลาปิด Poll</label>
+                <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2"/>
+                    <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
             <div class="form-group col-md-3">
                 <label for="password">รหัสผ่าน</label>
                 <input type="password" class="form-control" name='password' placeholder="Password">
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-3">
-                <p>รูปภาพ</p>
-                <div class="custom-file">
-                    <input type="file" class="" id="myInput" aria-describedby="myInput" name='picture'>
-                </div>
-            </div>
-        </div>
+
         <button type="submit" class='btn btn-primary'>สร้าง</button>
     </form>
 {% endblock %}

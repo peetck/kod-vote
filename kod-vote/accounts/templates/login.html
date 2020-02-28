@@ -2,19 +2,26 @@
 
 {% block content %}
     <h1>เข้าสู่ระบบ</h1>
+    {% if error %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
     <form method="POST" action="{% url 'login' %}">
         {% csrf_token %}
         <div class="form-group">
-            <label for="exampleInputEmail1">ชื่อผู้ใช้งาน</label>
-            <input type="text" class="form-control" name='username' placeholder="Enter username">
+            <label>ชื่อผู้ใช้งาน</label>
+            <input type="text" class="form-control" name='username' placeholder="Enter username" required>
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">รหัสผ่าน</label>
-            <input type="password" class="form-control" name='password' placeholder="Enter password">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your password with anyone else.</small>
+            <label>รหัสผ่าน</label>
+            <input type="password" class="form-control" name='password' placeholder="Enter password" required>
+            <small class="form-text text-muted">We'll never share your password with anyone else.</small>
         </div>
         <input type="hidden" name="next_url" value="{{ next_url }}">
         <button type="submit" class='btn btn-primary'>ยืนยัน</button>
     </form>
-
 {% endblock %}

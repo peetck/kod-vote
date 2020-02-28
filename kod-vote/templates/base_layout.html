@@ -8,8 +8,9 @@
     <!-- Icon -->
     <link rel="shortcut icon" href="{% static 'images/vote.png' %}" type="image/x-icon">
     <!-- Load bootstrap CSS -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tempus.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <!-- My Style -->
     <style>
         @import url('https://fonts.googleapis.com/css?family=Kanit:300&display=swap');
@@ -53,8 +54,24 @@
     </div>
 
     <!-- Load bootstrap JS -->
-    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/moment.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tempus.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/local.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/pygal.js' %}"></script>
+
+    <!-- Datetime picker script -->
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                locale: 'th'
+            });
+            $('#datetimepicker2').datetimepicker({
+                locale: 'th'
+            });
+        });
+    </script>
 
 </body>
 </html>

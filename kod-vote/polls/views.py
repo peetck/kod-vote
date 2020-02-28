@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Poll, Poll_Vote, Poll_Choice
 from django.contrib.auth.decorators import login_required, permission_required
 import datetime
+import pygal
 from django.conf import settings
 
 # Create your views here.
@@ -50,13 +51,22 @@ def detail_view(request, poll_id):
 
     for vote in poll.poll_vote_set.all():
         if vote.vote_by == request.user:
-            context['already_vote'] = f'คุณได้โหวตไปแล้ว : {vote.choice_id.subject}'
+            context['already_vote'] = True
             break
 
     choices = poll.poll_choice_set.all()
     context['poll'] = poll
     context['choices'] = choices
     context['now'] = datetime.datetime.now()
+
+    # pygal
+    pie_chart = pygal.Pie(width=1000)
+    pie_chart.title = poll.subject
+    for choice in choices:
+        pie_chart.add(choice.subject, choice.poll_vote_set.all().count())
+
+    context['graph'] = pie_chart.render().decode('utf-8')
+
     return render(request, 'detail.html', context)
 
 @login_required
