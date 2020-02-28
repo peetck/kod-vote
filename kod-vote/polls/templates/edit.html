@@ -1,9 +1,10 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    <h1>แก้ไข Poll ({{ poll.subject }})</h1>
+    <h1>แก้ไข Poll ({{ poll.subject }}) </h1>
     <br>
 
+    <a href="{% url 'add_choice' poll.id %}" class='btn btn-warning'>เพิ่มตัวเลือก</a>
     <div class="container text-center">
         <div class="row">
             {% for choice in poll.poll_choice_set.all %}
@@ -17,7 +18,7 @@
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                <a href="{% url 'choice_delete' choice.id %}" class='btn btn-danger'>Remove</a>
+                                <a href="{% url 'choice_delete' choice.id %}" class='btn btn-danger'>ลบ</a>
                             </li>
                         </ul>
                         <!-- <div class="card-footer">
@@ -33,7 +34,4 @@
 
         </div>
     </div>
-
-    <br>
-    <a href="{% url 'add_choice' poll.id %}" class='btn btn-primary'>เพิ่มตัวเลือก</a>
 {% endblock %}

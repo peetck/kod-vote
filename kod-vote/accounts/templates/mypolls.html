@@ -1,7 +1,7 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    <h1>Your Polls</h1>
+    <h1>Poll ทั้งหมดของคุณ <a href="{% url 'create' %}" class='btn btn-success'> + </a></h1>
     <div class="container">
         <div class="row">
             {% for poll in polls %}
@@ -16,8 +16,8 @@
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                <a href="{% url 'edit' poll.id %}" class='btn btn-warning'>Edit</a>
-                                <a href="{% url 'poll_delete' poll.id %}" class='btn btn-danger'>Delete</a>
+                                <a href="{% url 'edit' poll.id %}" class='btn btn-warning'>แก้ไข</a>
+                                <a href="{% url 'poll_delete' poll.id %}" class='btn btn-danger'>ลบ</a>
                             </li>
                         </ul>
                         <div class="card-footer">

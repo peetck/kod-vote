@@ -24,7 +24,7 @@ class Poll_Choice(models.Model):
     poll_id = models.ForeignKey(Poll, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Choice : {self.subject}'
+        return f'{self.subject}'
 
 class Poll_Vote(models.Model):
     poll_id = models.ForeignKey(Poll, on_delete=models.CASCADE)

@@ -1,5 +1,21 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    <h1>เพิ่มช้อยของ {{ poll }}</h1>
+    <h1 class='mb-5'>เพิ่มตัวเลือกของวิชา : {{ poll }}</h1>
+    <form action="{% url 'add_choice' poll.id %}" method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>ชื่อ Choice</label>
+            <input type="text" class="form-control" name='subject' placeholder="Enter poll name">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <p>รูปภาพ</p>
+                <div class="custom-file">
+                    <input type="file" class="" id="myInput" aria-describedby="myInput" name='image'>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class='btn btn-primary'>เพิ่มตัวเลือก</button>
+    </form>
 {% endblock %}

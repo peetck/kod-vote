@@ -56,6 +56,7 @@ def detail_view(request, poll_id):
     choices = poll.poll_choice_set.all()
     context['poll'] = poll
     context['choices'] = choices
+    context['now'] = datetime.datetime.now()
     return render(request, 'detail.html', context)
 
 @login_required
@@ -68,7 +69,7 @@ def vote_view(request, choice_id):
         vote_by=request.user
     )
     return redirect('detail', poll_id=poll.id)
-    
+
 @login_required
 def edit_view(request, poll_id):
     poll = Poll.objects.get(id=poll_id)
@@ -100,6 +101,13 @@ def add_choice_view(request, poll_id):
     context = {
         'poll' : poll
     }
+    if request.method == 'POST':
+        choice = Poll_Choice.objects.create(
+            subject = request.POST.get('subject'),
+            image = request.FILES['image'],
+            poll_id=poll
+        )
+        return redirect('edit', poll_id=poll.id)
     return render(request, 'add_choice.html', context)
 
 @login_required

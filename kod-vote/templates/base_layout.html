@@ -5,18 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kod Vote</title>
+    <!-- Icon -->
+    <link rel="shortcut icon" href="{% static 'images/vote.png' %}" type="image/x-icon">
     <!-- Load bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- My Style -->
     <style>
         @import url('https://fonts.googleapis.com/css?family=Kanit:300&display=swap');
-        @import "dist/css/propeller.min.css";
-
-/* Bootstrap datetimepicker */
-@import "datetimepicker/css/bootstrap-datetimepicker.css";
-
-/* Propeller datetimepicker */
-@import "datetimepicker/css/pmd-datetimepicker.css";
         *{
             font-family: 'Kanit';
         }
@@ -28,22 +24,22 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <a class="navbar-brand" href="{% url 'index' %}">โครตโหวต</a>
+          <a class="navbar-brand" href="{% url 'index' %}">
+              <img src="{% static 'images/vote.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+              โครตโหวต
+          </a>
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link" href="{% url 'index' %}">Polls <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'mypolls' %}">My Polls</a>
+              <a class="nav-link" href="{% url 'mypolls' %}">Poll ของคุณ</a>
             </li>
 
             {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    <a class="nav-link" href="{% url 'logout' %}">ออกจากระบบ</a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+                    <a class="nav-link" href="{% url 'signup' %}">สมัครสมาชิก</a>
                 </li>
             {% endif %}
           </ul>
