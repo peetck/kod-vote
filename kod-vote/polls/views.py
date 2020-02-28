@@ -25,8 +25,8 @@ def create_view(request):
             picture = request.FILES['picture']
         except:
             picture = settings.MEDIA_ROOT + '/poll/default.png'
-        start_date = request.POST.get('start_date')
-        end_date = request.POST.get('end_date')
+        start_date = datetime.datetime.strptime(request.POST.get('start_date'), '%d/%m/%Y %H:%M')
+        end_date = datetime.datetime.strptime(request.POST.get('end_date'), '%d/%m/%Y %H:%M')
         password = request.POST.get('password')
 
         poll = Poll.objects.create(
@@ -84,6 +84,26 @@ def vote_view(request, choice_id):
 def edit_view(request, poll_id):
     poll = Poll.objects.get(id=poll_id)
     context = {'poll' : poll}
+    if request.method == 'POST':
+        subject = request.POST.get('subject')
+        detail = request.POST.get('detail')
+        try:
+            picture = request.FILES['picture']
+        except:
+            picture = settings.MEDIA_ROOT + '/poll/default.png'
+        start_date = datetime.datetime.strptime(request.POST.get('start_date'), '%d/%m/%Y %H:%M')
+        end_date = datetime.datetime.strptime(request.POST.get('end_date'), '%d/%m/%Y %H:%M')
+        password = request.POST.get('password')
+
+        poll.subject = subject
+        poll.detail = detail
+        poll.picture = picture
+        poll.start_date = start_date
+        poll.end_date = end_date
+        poll.password = password
+
+        poll.save()
+
     return render(request, 'edit.html', context)
 
 @login_required
