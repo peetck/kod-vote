@@ -2,10 +2,10 @@
 {% load static %}
 {% block content %}
 
-    <!-- Head -->
-    <div class="container mb-5">
+    <!-- Title and create poll btn -->
+    <div class="container">
         <div class="row">
-            <div class="col-5">
+            <div class="col-lg-5 mb-5">
                 <h1 class='display-3'>
                     ยินดีต้อนรับ
                     <br>
@@ -22,87 +22,114 @@
                 </div>
 
             </div>
-            <div class="col-7 text-center">
+            <div class="col-lg-7 text-center">
                 <img src="{% static 'images/index_vote.svg' %}" alt="">
             </div>
         </div>
     </div>
 
     <!-- Poll List -->
-    <br><br>
-    <h1 class='text-center display-4'>Poll ทั้งหมดบนเว็บไซต์</h1>
-    <hr>
-    <div class="container text-center">
-        <div class="row">
-            <div class="col-6">
-                <h1>Avalible</h1>
-                <div class="container text-center">
-                    <div class="row">
-                        {% for poll in polls_avaliable %}
-                            <div class="col-md-6 my-3">
-                                <div class="card h-100 w-100">
-                                    <img class=" card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ poll.subject }}</h5>
-                                        <p class="card-text">
-                                            {{ poll.detail|truncatechars:15 }}
-                                        </p>
-                                    </div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            <a href="{% url 'detail' poll.id %}" class='btn btn-warning'>โหวต</a>
-                                        </li>
-                                    </ul>
-                                    <div class="card-footer">
-                                        <small class="text-muted">
-                                            เริ่ม : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
-                                            สิ้นสุด : {{ poll.end_date|date:'d/m/Y H:i' }} <br>
-                                            โดย : {{ poll.create_by }}
-                                        </small>
-                                    </div>
+
+    <h1 class='text-center my-5'> Poll ทั้งหมดบนเว็บไซต์</h1>
+
+    <ul class="nav nav-tabs nav-justified mb-5" id="nav-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="available-tab" data-toggle="tab" href="#available" role="tab" aria-controls="available" aria-selected="true">
+                <h3 class='text-dark'>Available</h3>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="closed-tab" data-toggle="pill" href="#closed" role="tab" aria-controls="closed" aria-selected="false">
+                <h3 class='text-dark'>Closed</h3>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content mb-5">
+        <div class="tab-pane fade show active" id="available" role="tabpanel" aria-labelledby="available-tab">
+            <!-- Available Poll List sorted by lastest -->
+            <div class="container">
+                <div class="row">
+                    {% for poll in polls_avaliable %}
+                        <div class="col-md-3 my-3">
+                            <div class="card h-100 w-100">
+                                <img class=" card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ poll.subject }}</h5>
+                                    <p class="card-text">
+                                        {{ poll.detail|truncatechars:15 }}
+                                    </p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <a href="{% url 'detail' poll.id %}" class='btn btn-warning'>โหวต</a>
+                                    </li>
+                                </ul>
+                                <div class="card-footer">
+                                    <small class="text-muted">
+                                        เริ่ม : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
+                                        สิ้นสุด : {{ poll.end_date|date:'d/m/Y H:i' }} <br>
+                                        โดย : {{ poll.create_by }}
+                                    </small>
                                 </div>
                             </div>
-                        {% endfor %}
-                    </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
-            <div class="col-6">
-                <h1>Closed</h1>
+        </div>
+
+        <div class="tab-pane fade" id="closed" role="tabpanel" aria-labelledby="closed-tab">
+            <!-- Closed Poll List sorted by lastest -->
+            <div class="container">
+                <div class="row">
+                    {% for poll in polls_closed %}
+                        <div class="col-md-3 my-3">
+                            <div class="card h-100 w-100">
+                                <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ poll.subject }}</h5>
+                                    <p class="card-text">
+                                        {{ poll.detail|truncatechars:15 }}
+                                    </p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <a href="{% url 'detail' poll.id %}" class='btn btn-warning'>ผลลัพธ์</a>
+                                    </li>
+                                </ul>
+                                <div class="card-footer">
+                                    <small class="text-muted">
+                                        Expired At : {{ poll.end_date }}<br>
+                                        Create by : {{ poll.create_by }}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="page-footer font-small special-color-dark pt-4">
+    <div class="container">
+        <ul class="list-unstyled list-inline text-center">
+            <li class="list-inline-item">
+                <a class="btn-floating btn-fb mx-1">
+                    <i class="fa fa-facebook-f"> </i>
+                </a>
+            </li>
+            <li class="list-inline-item">
+                <a class="btn-floating btn-dribbble mx-1">
+                    <i class="fa fa-github"> </i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="footer-copyright text-center py-3">
+        © 2020 Copyright: Picnic
+    </div>
+  </footer>
 
-    <hr>
-    <h1 class='my-5'>
-        Closed <img width='70' src="{% static 'images/closed.png' %}" alt="Can't Load img">
-    </h1>
-        <div class="container text-center">
-            <div class="row">
-                {% for poll in polls_closed %}
-                    <div class="col-md-3 my-3">
-                        <div class="card h-100 w-100">
-                            <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ poll.subject }}</h5>
-                                <p class="card-text">
-                                    {{ poll.detail|truncatechars:15 }}
-                                </p>
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <a href="{% url 'detail' poll.id %}" class='btn btn-warning'>ผลลัพธ์</a>
-                                </li>
-                            </ul>
-                            <div class="card-footer">
-                                <small class="text-muted">
-                                    Expired At : {{ poll.end_date }}<br>
-                                    Create by : {{ poll.create_by }}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
 {% endblock %}

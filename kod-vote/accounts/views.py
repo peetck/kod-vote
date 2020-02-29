@@ -14,7 +14,7 @@ def login_view(request):
         if (user):
             login(request, user)
             next_url = request.POST.get('next_url')
-            if (next_url != None and next_url != '/accounts/logout/' or '/accounts/login/'):
+            if (next_url != 'None'):
                 return redirect(next_url)
             else:
                 return redirect('index')
