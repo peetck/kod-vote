@@ -1,11 +1,21 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    <div class='mb-5 jumbotron'>
-        <h1>{{ poll.subject }}</h1>
-        <hr>
-        <small>{{ poll.detail }}</small>
-    </div>
+
+    <div class="card card-image" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg)">
+        <div class="text-white text-center rgba-stylish-strong py-5 px-4">
+          <div class="py-5">
+
+            <!-- Content -->
+            <h5 class="h5 orange-text"><i class="fa fa-camera-retro"></i> Photography</h5>
+            <h2 class="card-title h2 my-4 py-2"> {{ poll.subject }}</h2>
+            <p class="mb-4 pb-2 px-md-5 mx-md-5"> {{ poll.detail }} </p>
+            <a class="btn peach-gradient">Create by : {{ poll.create_by }}</a>
+
+          </div>
+        </div>
+      </div>
+
     <h1 class='mb-5'>Choices</h1>
     <div class='container text-center'>
         <div class="row">

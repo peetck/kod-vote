@@ -7,17 +7,12 @@
     <title>Kod Vote</title>
     <!-- Icon -->
     <link rel="shortcut icon" href="{% static 'images/vote.png' %}" type="image/x-icon">
-    <!-- Load bootstrap CSS -->
+    <!-- Load other CSS -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/tempus.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <!-- My Style -->
-    <style>
-        @import url('https://fonts.googleapis.com/css?family=Kanit:300&display=swap');
-        *{
-            font-family: 'Kanit';
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -29,23 +24,36 @@
               <img src="{% static 'images/vote.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
               โครตโหวต
           </a>
+
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link" href="{% url 'mypolls' %}">Poll ของคุณ</a>
+              <a class="nav-link" href="{% url 'mypolls' %}">Poll ของฉัน</a>
             </li>
+          </ul>
 
+          <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">ออกจากระบบ</a>
+                    <a class="nav-link" href="{% url 'logout' %}">
+                        <button class='btn btn-outline-primary'>ออกจากระบบ</button>
+                    </a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'signup' %}">สมัครสมาชิก</a>
+                    <a class="nav-link" href="{% url 'signup' %}">
+                        <button class='btn'>สมัครสมาชิก</button>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">
+                        <button class='btn btn-outline-primary'>เข้าสู่ระบบ</button>
+                    </a>
                 </li>
             {% endif %}
           </ul>
         </div>
       </nav>
+
 
     <div class="container my-5">
         {% block content %}
@@ -53,7 +61,7 @@
         {% endblock %}
     </div>
 
-    <!-- Load bootstrap JS -->
+    <!-- Load other JS -->
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/moment.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -61,16 +69,7 @@
     <script type="text/javascript" src="{% static 'js/local.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/pygal.js' %}"></script>
 
-    <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker1').datetimepicker({
-                locale: 'th'
-            });
-            $('#datetimepicker2').datetimepicker({
-                locale: 'th'
-            });
-        });
-    </script>
-
+    <!-- Load My JS -->
+    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

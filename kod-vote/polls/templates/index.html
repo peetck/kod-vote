@@ -1,45 +1,78 @@
 {% extends 'base_layout.html' %}
 {% load static %}
 {% block content %}
-    <div class="jumbotron">
-        <h1 class='display-4'>ยินดีต้อนรับเข้าสู่ระบบ โครตโหวต <img width='70' src="{% static 'images/vote.png' %}" alt=""></h1>
-        <p class="lead">ระบบนี้เป็นส่วนหนึ่งของวิชา Web programming KMITL 2019</p>
-        <hr class="my-4">
-        <p>ยินดีต้อนรับ {{ user }}</p>
-        <a href="{% url 'create' %}" class='btn btn-success'>สร้าง Poll ของคุณ</a>
-    </div>
-    <h1 class='mb-5'>
-        Open <img width='70' src="{% static 'images/open.png' %}" alt="Can't Load img">
-    </h1>
-        <div class="container text-center">
-            <div class="row">
-                {% for poll in polls_avaliable %}
-                    <div class="col-md-3 my-3">
-                        <div class="card h-100 w-100">
-                            <img class=" card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ poll.subject }}</h5>
-                                <p class="card-text">
-                                    {{ poll.detail|truncatechars:15 }}
-                                </p>
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <a href="{% url 'detail' poll.id %}" class='btn btn-warning'>โหวต</a>
-                                </li>
-                            </ul>
-                            <div class="card-footer">
-                                <small class="text-muted">
-                                    Start at : {{ poll.start_date }} <br>
-                                    Close at : {{ poll.end_date }} <br>
-                                    Create by : {{ poll.create_by }}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
+
+    <!-- Head -->
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col-5">
+                <h1 class='display-3'>
+                    ยินดีต้อนรับ
+                    <br>
+                    <span class='text-primary'>{{ user }}</span>
+                    <br>
+                    เข้าสู่ระบบ
+                    <br>
+                    โครตโหวต
+                </h1>
+                <p class="mt-4 display-5">เว็บไซต์นี้เป็นส่วนหนึ่งของวิชา Web programming KMITL 2019</p>
+
+                <div>
+                    <a href="{% url 'create' %}" class='btn btn-primary p-3 mt-3 ml-5 index-create-poll-btn'>สร้าง Poll ของคุณ</a>
+                </div>
+
+            </div>
+            <div class="col-7 text-center">
+                <img src="{% static 'images/index_vote.svg' %}" alt="">
             </div>
         </div>
+    </div>
+
+    <!-- Poll List -->
+    <br><br>
+    <h1 class='text-center display-4'>Poll ทั้งหมดบนเว็บไซต์</h1>
+    <hr>
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-6">
+                <h1>Avalible</h1>
+                <div class="container text-center">
+                    <div class="row">
+                        {% for poll in polls_avaliable %}
+                            <div class="col-md-6 my-3">
+                                <div class="card h-100 w-100">
+                                    <img class=" card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ poll.subject }}</h5>
+                                        <p class="card-text">
+                                            {{ poll.detail|truncatechars:15 }}
+                                        </p>
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <a href="{% url 'detail' poll.id %}" class='btn btn-warning'>โหวต</a>
+                                        </li>
+                                    </ul>
+                                    <div class="card-footer">
+                                        <small class="text-muted">
+                                            เริ่ม : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
+                                            สิ้นสุด : {{ poll.end_date|date:'d/m/Y H:i' }} <br>
+                                            โดย : {{ poll.create_by }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <h1>Closed</h1>
+            </div>
+        </div>
+    </div>
+
+
     <hr>
     <h1 class='my-5'>
         Closed <img width='70' src="{% static 'images/closed.png' %}" alt="Can't Load img">

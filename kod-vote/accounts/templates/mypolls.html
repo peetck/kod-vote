@@ -1,13 +1,13 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-    <h1>Poll ทั้งหมดของคุณ <a href="{% url 'create' %}" class='btn btn-success'> + </a></h1>
+    <h1>Poll ทั้งหมดของคุณ <a href="{% url 'create' %}"> <i class="fa fa-plus-square" aria-hidden="true"></i> </a></h1>
     <div class="container">
         <div class="row">
             {% for poll in polls %}
                 <div class="col-md-3 my-3">
                     <div class="card h-100 w-100">
-                        <img class="py-2 card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
+                        <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title">{{ poll.subject }}</h5>
                             <p class="card-text">
