@@ -23,23 +23,30 @@ def create_view(request):
     if request.method == 'POST':
         subject = request.POST.get('subject')
         detail = request.POST.get('detail')
+        
         try:
             picture = request.FILES['picture']
         except:
-            picture = settings.MEDIA_ROOT + '/poll/default.png'
+            picture = None
+
         start_date = datetime.datetime.strptime(request.POST.get('start_date'), '%d/%m/%Y %H:%M')
         end_date = datetime.datetime.strptime(request.POST.get('end_date'), '%d/%m/%Y %H:%M')
         password = request.POST.get('password').strip()
 
-        poll = Poll.objects.create(
-            subject=subject,
-            detail=detail,
-            picture=picture,
-            start_date=start_date,
-            end_date=end_date,
-            password=password,
-            create_by=request.user
+        poll = Poll(
+                subject=subject,
+                detail=detail,
+                start_date=start_date,
+                end_date=end_date,
+                password=password,
+                create_by=request.user
         )
+
+        if picture != None:
+            poll.picture = picture
+        
+        poll.save()
+
         return redirect('mypolls')
     time = datetime.datetime.now()
     return render(request, 'create.html', {'time' : time})
@@ -126,12 +133,18 @@ def add_choice_view(request, poll_id):
         try:
             image = request.FILES['picture']
         except:
-            image = settings.MEDIA_ROOT + '/choice/default.png'
-        choice = Poll_Choice.objects.create(
+            image = None
+
+        choice = Poll_Choice(
             subject = request.POST.get('subject'),
-            image = image,
             poll_id=poll
         )
+
+        if image != None:
+            choice.image = image
+        
+        choice.save()
+        
         return redirect('edit', poll_id=poll.id)
     return render(request, 'add_choice.html', context)
 
