@@ -1,15 +1,21 @@
 {% extends 'base_layout.html' %}
 
+{% block title %}
+    Poll ของฉัน
+{% endblock %}
+
 {% block content %}
     <h1>Poll ทั้งหมดของคุณ <a href="{% url 'create' %}"> <i class="fa fa-plus-square" aria-hidden="true"></i> </a></h1>
-    <div class="container">
+    <div class="container mt-5">
         <div class="row">
             {% for poll in polls %}
                 <div class="col-md-3 my-3">
                     <div class="card h-100 w-100">
                         <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
                         <div class="card-body">
-                            <h5 class="card-title">{{ poll.subject }}</h5>
+                            <h5 class="card-title">
+                                <b>{{ poll.subject }}</b>
+                            </h5>
                             <p class="card-text">
                                 {{ poll.detail|truncatechars:15 }}
                             </p>
@@ -22,8 +28,8 @@
                         </ul>
                         <div class="card-footer">
                             <small class="text-muted">
-                                Start at : {{ poll.start_date }} <br>
-                                Close at : {{ poll.end_date }} <br>
+                                <b>เริ่ม</b> : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
+                                <b>สิ้นสุด</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br>
                             </small>
                         </div>
                     </div>

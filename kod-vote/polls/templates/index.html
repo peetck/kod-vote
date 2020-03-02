@@ -1,5 +1,8 @@
 {% extends 'base_layout.html' %}
 {% load static %}
+{% block title %}
+    หน้าแรก
+{% endblock %}
 {% block content %}
 
     <!-- Title and create poll btn -->
@@ -13,7 +16,7 @@
                     <br>
                     เข้าสู่ระบบ
                     <br>
-                    โครตโหวต
+                    โคตรโหวต
                 </h1>
                 <p class="mt-4 display-5">เว็บไซต์นี้เป็นส่วนหนึ่งของวิชา Web programming KMITL 2019</p>
 
@@ -35,12 +38,12 @@
     <ul class="nav nav-tabs nav-justified mb-5" id="nav-tab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="available-tab" data-toggle="tab" href="#available" role="tab" aria-controls="available" aria-selected="true">
-                <h3 class='text-dark'>Available</h3>
+                <h3 class='text-dark'>เปิดอยู่</h3>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="closed-tab" data-toggle="pill" href="#closed" role="tab" aria-controls="closed" aria-selected="false">
-                <h3 class='text-dark'>Closed</h3>
+                <h3 class='text-dark'>ปิดแล้ว</h3>
             </a>
         </li>
     </ul>
@@ -54,21 +57,36 @@
                             <div class="card h-100 w-100">
                                 <img class=" card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ poll.subject }}</h5>
+                                    <h5 class="card-title">
+                                        <b>{{ poll.subject }}</b>
+                                    </h5>
                                     <p class="card-text">
-                                        {{ poll.detail|truncatechars:15 }}
+                                        {{ poll.detail|truncatechars:20 }}
                                     </p>
                                 </div>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                        <a href="{% url 'detail' poll.id %}" class='btn btn-warning'>โหวต</a>
-                                    </li>
+                                        <li class="list-group-item">
+
+                                            {% if poll.start_date|date:'Y-m-d H:i' <= now|date:'Y-m-d H:i' %}
+                                                <a href="{% url 'detail' poll.id %}" class='btn btn-warning'>โหวต</a>
+                                                {% if poll.create_by == user %}
+                                                    <a href="{% url 'edit' poll.id %}" class='btn btn-danger'>แก้ไข</a>
+                                                {% endif %}
+                                            {% else %}
+                                                <span href="{% url 'detail' poll.id %}" class='btn btn-secondary'>โหวต</span>
+                                                {% if poll.create_by == user %}
+                                                    <a href="{% url 'edit' poll.id %}" class='btn btn-danger'>แก้ไข</a>
+                                                {% endif %}
+                                            {% endif %}
+
+
+                                        </li>
                                 </ul>
                                 <div class="card-footer">
                                     <small class="text-muted">
-                                        เริ่ม : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
-                                        สิ้นสุด : {{ poll.end_date|date:'d/m/Y H:i' }} <br>
-                                        โดย : {{ poll.create_by }}
+                                        <b>เริ่ม</b> : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
+                                        <b>สิ้นสุด</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br>
+                                        <b>โดย</b> : {{ poll.create_by }}
                                     </small>
                                 </div>
                             </div>
@@ -110,26 +128,5 @@
             </div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="page-footer font-small special-color-dark pt-4">
-    <div class="container">
-        <ul class="list-unstyled list-inline text-center">
-            <li class="list-inline-item">
-                <a class="btn-floating btn-fb mx-1">
-                    <i class="fa fa-facebook-f"> </i>
-                </a>
-            </li>
-            <li class="list-inline-item">
-                <a class="btn-floating btn-dribbble mx-1">
-                    <i class="fa fa-github"> </i>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="footer-copyright text-center py-3">
-        © 2020 Copyright: Picnic
-    </div>
-  </footer>
 
 {% endblock %}

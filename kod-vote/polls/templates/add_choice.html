@@ -1,7 +1,11 @@
 {% extends 'base_layout.html' %}
 
+{% block title %}
+    เพิ่มตัวเลือก
+{% endblock %}
+
 {% block content %}
-    <h1 class='mb-5'>เพิ่มตัวเลือกของวิชา : {{ poll }}</h1>
+    <h1 class='mb-5'>เพิ่มตัวเลือกของ Poll : {{ poll }}</h1>
     <form action="{% url 'add_choice' poll.id %}" method='POST' enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
@@ -12,7 +16,7 @@
             <div class="form-group col-md-3">
                 <p>รูปภาพ</p>
                 <div class="custom-file">
-                    <input type="file" class="" id="myInput" aria-describedby="myInput" name='image'>
+                    <input type="file" name='image'>
                 </div>
             </div>
         </div>

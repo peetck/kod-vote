@@ -1,5 +1,9 @@
 {% extends 'base_layout.html' %}
 
+{% block title %}
+    {{ poll.subject }}
+{% endblock %}
+
 {% block content %}
 
     <div class="card card-image" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg)">
@@ -42,7 +46,7 @@
             {% endfor %}
         </div>
     </div>
-    {% if already_vote %}
+    {% if already_vote or poll.end_date|date:'Y-m-d H:i' <= now|date:'Y-m-d H:i' %}
         <h1>แสดงข้อมูลผลลัพธ์การโหวต</h1>
         <ul>
             {% for vote in poll.poll_vote_set.all %}

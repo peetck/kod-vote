@@ -1,9 +1,18 @@
 {% extends 'base_layout.html' %}
-
+{% block title %}
+    แก้ไข {{ poll.subject }}
+{% endblock %}
 {% block content %}
     <h1>แก้ไข Poll ({{ poll.subject }}) </h1>
     <br>
-
+    {% if success %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fa fa-exclamation-circle"></i> {{ success }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
 
     <form action="{% url 'edit' poll.id %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -17,23 +26,19 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-3">
-                <label for="start_date">เริ่มโหวตได้ตอน</label>
-                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                    <input name='start_date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="{{ poll.start_date|date:'d/m/Y H:i' }}"/>
-                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
-                </div>
+                <label>เริ่มโหวตได้ตอน</label>
+                <p class="form-control datetimepicker-input">
+                    {{ poll.start_date|date:'d/m/Y H:i' }}
+                </p>
             </div>
             <div class="form-group col-md-3">
-                <label for="end_date">เวลาปิด Poll</label>
-                <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                    <input name='end_date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" value="{{ poll.end_date|date:'d/m/Y H:i' }}"/>
-                    <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
-                </div>
+                <label>เวลาปิด Poll</label>
+                <p class="form-control datetimepicker-input">
+                    {{ poll.end_date|date:'d/m/Y H:i' }}
+                </p>
             </div>
+        </div>
+        <div class="form-row">
             <div class="form-group col-md-3">
                 <label for="password">รหัสผ่าน</label>
                 <input type="password" class="form-control" name='password' placeholder="Password" value="{{ poll.password }}">
@@ -42,10 +47,10 @@
 
         <button type="submit" class='btn btn-primary'>แก้ไข</button>
     </form>
-
-    <br><br><br>
-
-    <a href="{% url 'add_choice' poll.id %}" class='btn btn-warning'>เพิ่มตัวเลือก</a>
+    <br>
+    <hr>
+    <h1>ตัวเลือกทั้งหมด <a href="{% url 'add_choice' poll.id %}"> <i class="fa fa-plus-square" aria-hidden="true"></i> </a></h1>
+    <br>
     <div class="container text-center">
         <div class="row">
             {% for choice in poll.poll_choice_set.all %}

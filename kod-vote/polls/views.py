@@ -14,6 +14,8 @@ def index_view(request):
         'polls_avaliable' : polls_avaliable,
         'polls_closed' : polls_closed
     }
+
+    context['now'] = datetime.datetime.now()
     return render(request, 'index.html', context)
 
 @login_required
@@ -27,7 +29,7 @@ def create_view(request):
             picture = settings.MEDIA_ROOT + '/poll/default.png'
         start_date = datetime.datetime.strptime(request.POST.get('start_date'), '%d/%m/%Y %H:%M')
         end_date = datetime.datetime.strptime(request.POST.get('end_date'), '%d/%m/%Y %H:%M')
-        password = request.POST.get('password')
+        password = request.POST.get('password').strip()
 
         poll = Poll.objects.create(
             subject=subject,
@@ -46,25 +48,20 @@ def create_view(request):
 def detail_view(request, poll_id):
     context = {}
     poll = Poll.objects.get(id=poll_id)
-    if poll.password != '': # if poll have password
-        print(poll.subject)
+    context['poll'] = poll
 
     for vote in poll.poll_vote_set.all():
         if vote.vote_by == request.user:
             context['already_vote'] = True
             break
-
     choices = poll.poll_choice_set.all()
-    context['poll'] = poll
     context['choices'] = choices
     context['now'] = datetime.datetime.now()
-
     # pygal
     pie_chart = pygal.Pie(width=1000)
     pie_chart.title = poll.subject
     for choice in choices:
-        pie_chart.add(choice.subject, choice.poll_vote_set.all().count())
-
+       pie_chart.add(choice.subject, choice.poll_vote_set.all().count())
     context['graph'] = pie_chart.render().decode('utf-8')
 
     return render(request, 'detail.html', context)
@@ -87,22 +84,16 @@ def edit_view(request, poll_id):
     if request.method == 'POST':
         subject = request.POST.get('subject')
         detail = request.POST.get('detail')
-        try:
-            picture = request.FILES['picture']
-        except:
-            picture = settings.MEDIA_ROOT + '/poll/default.png'
-        start_date = datetime.datetime.strptime(request.POST.get('start_date'), '%d/%m/%Y %H:%M')
-        end_date = datetime.datetime.strptime(request.POST.get('end_date'), '%d/%m/%Y %H:%M')
+
         password = request.POST.get('password')
 
         poll.subject = subject
         poll.detail = detail
-        poll.picture = picture
-        poll.start_date = start_date
-        poll.end_date = end_date
         poll.password = password
 
         poll.save()
+
+        context['success'] = 'แก้ไข Poll เรียบร้อยแล้ว'
 
     return render(request, 'edit.html', context)
 
@@ -132,9 +123,13 @@ def add_choice_view(request, poll_id):
         'poll' : poll
     }
     if request.method == 'POST':
+        try:
+            image = request.FILES['picture']
+        except:
+            image = settings.MEDIA_ROOT + '/choice/default.png'
         choice = Poll_Choice.objects.create(
             subject = request.POST.get('subject'),
-            image = request.FILES['image'],
+            image = image,
             poll_id=poll
         )
         return redirect('edit', poll_id=poll.id)

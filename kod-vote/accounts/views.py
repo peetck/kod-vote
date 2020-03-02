@@ -57,5 +57,5 @@ def signup_view(request):
 
 @login_required
 def my_polls_view(request):
-    polls = Poll.objects.filter(create_by=request.user)
+    polls = Poll.objects.filter(create_by=request.user).order_by('-start_date')
     return render(request, 'mypolls.html', {'polls' : polls})
