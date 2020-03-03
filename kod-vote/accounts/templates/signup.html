@@ -1,11 +1,11 @@
 {% extends 'base_layout.html' %}
-
+{% load static %}
 {% block title %}
     สมัครสมาชิก
 {% endblock %}
 
 {% block content %}
-    <h1>สมัครสมาชิก</h1>
+    <h1>สมัครสมาชิก <img width='45' src="{% static 'images/signup.png' %}" alt=""> </h1>
     {% if error %}
         <p class='text-danger'>{{error}}</p>
     {% endif %}

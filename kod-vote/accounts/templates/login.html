@@ -1,11 +1,11 @@
 {% extends 'base_layout.html' %}
-
+{% load static %}
 {% block title %}
     เข้าสู่ระบบ
 {% endblock %}
 
 {% block content %}
-    <h1>เข้าสู่ระบบ</h1>
+    <h1>เข้าสู่ระบบ <img width='45' src="{% static 'images/key.png' %}" alt=""> </h1>
     {% if error %}
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="fa fa-exclamation-circle"></i> ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง

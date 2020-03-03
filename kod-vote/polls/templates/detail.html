@@ -38,10 +38,10 @@
                         <li class="list-group-item">
                             {% if not already_vote and poll.end_date|date:'Y-m-d H:i' > now|date:'Y-m-d H:i' %}
                                 <a href="{% url 'vote' choice.id %}" class='btn btn-warning'>โหวต</a>
-                            {% elif already_vote %}
-                                <p class='text-success mt-5'> คุณได้โหวตไปแล้ว </p>
-                            {% else %}
+                            {% elif poll.end_date|date:'Y-m-d H:i' <= now|date:'Y-m-d H:i' %}
                                 <p class="text-danger mt-5"> หมดเวลาโหวตแล้ว</p>
+                            {% else %} 
+                                <p class='text-success mt-5'> คุณได้โหวตไปแล้ว </p>
                             {% endif %}
                         </li>
                     </ul>

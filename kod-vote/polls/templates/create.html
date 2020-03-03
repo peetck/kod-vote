@@ -1,11 +1,11 @@
 {% extends 'base_layout.html' %}
-
+{% load static %}
 {% block title %}
     สร้าง Poll
 {% endblock %}
 
 {% block content %}
-    <h1>สร้าง Poll</h1>
+    <h1>สร้าง Poll <img width='45' src="{% static 'images/create_poll.png' %}" alt=""> </h1>
     <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
