@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from polls.models import Poll
+import datetime
 
 # Create your views here.
 def login_view(request):
@@ -57,5 +58,8 @@ def signup_view(request):
 
 @login_required
 def my_polls_view(request):
+    context = {}
     polls = Poll.objects.filter(create_by=request.user).order_by('-start_date')
-    return render(request, 'mypolls.html', {'polls' : polls})
+    context['polls'] = polls
+    context['now'] = datetime.datetime.now()
+    return render(request, 'mypolls.html', context)

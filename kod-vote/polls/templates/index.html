@@ -26,7 +26,7 @@
 
             </div>
             <div class="col-lg-7 text-center">
-                <img src="{% static 'images/index_vote.svg' %}" alt="">
+                <img src="{% static 'images/index_vote.svg' %}" alt="" class='img-fluid'>
             </div>
         </div>
     </div>
@@ -66,7 +66,6 @@
                                 </div>
                                 <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
-
                                             {% if poll.start_date|date:'Y-m-d H:i' <= now|date:'Y-m-d H:i' %}
                                                 <a href="{% url 'detail' poll.id %}" class='btn btn-warning'>โหวต</a>
                                                 {% if poll.create_by == user %}
@@ -105,7 +104,9 @@
                             <div class="card h-100 w-100">
                                 <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ poll.subject }}</h5>
+                                    <h5 class="card-title">
+                                        <b>{{ poll.subject }}</b>
+                                    </h5>
                                     <p class="card-text">
                                         {{ poll.detail|truncatechars:15 }}
                                     </p>
@@ -117,8 +118,8 @@
                                 </ul>
                                 <div class="card-footer">
                                     <small class="text-muted">
-                                        Expired At : {{ poll.end_date }}<br>
-                                        Create by : {{ poll.create_by }}
+                                        <b>หมดเวลาตอน</b> : {{ poll.end_date|date:'d/m/Y H:i' }}<br>
+                                        <b>โดย</b> : {{ poll.create_by }}
                                     </small>
                                 </div>
                             </div>

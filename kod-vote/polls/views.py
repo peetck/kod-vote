@@ -65,11 +65,11 @@ def detail_view(request, poll_id):
     context['choices'] = choices
     context['now'] = datetime.datetime.now()
     # pygal
-    pie_chart = pygal.Pie(width=1000)
-    pie_chart.title = poll.subject
+    chart = pygal.Bar(width=1000, min_scale=1)
+    chart.title = f"ผลลัพธ์ของ : {poll.subject}"
     for choice in choices:
-       pie_chart.add(choice.subject, choice.poll_vote_set.all().count())
-    context['graph'] = pie_chart.render().decode('utf-8')
+       chart.add(choice.subject, choice.poll_vote_set.all().count())
+    context['graph'] = chart.render().decode('utf-8')
 
     return render(request, 'detail.html', context)
 
@@ -144,7 +144,7 @@ def add_choice_view(request, poll_id):
             choice.image = image
         
         choice.save()
-        
+
         return redirect('edit', poll_id=poll.id)
     return render(request, 'add_choice.html', context)
 

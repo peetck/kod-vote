@@ -23,6 +23,9 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <a href="{% url 'edit' poll.id %}" class='btn btn-warning'>แก้ไข</a>
+                                {% if poll.end_date|date:'Y-m-d H:i' > now|date:'Y-m-d H:i' %}
+                                    <a href="{% url 'close' poll.id %}" class='btn btn-warning'>ปิดโหวต</a>
+                                {% endif %}
                                 <a href="{% url 'poll_delete' poll.id %}" class='btn btn-danger'>ลบ</a>
                             </li>
                         </ul>

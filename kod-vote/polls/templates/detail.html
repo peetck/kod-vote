@@ -6,22 +6,24 @@
 
 {% block content %}
 
-    <div class="card card-image" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg)">
-        <div class="text-white text-center rgba-stylish-strong py-5 px-4">
-          <div class="py-5">
-
-            <!-- Content -->
-            <h5 class="h5 orange-text"><i class="fa fa-camera-retro"></i> Photography</h5>
-            <h2 class="card-title h2 my-4 py-2"> {{ poll.subject }}</h2>
-            <p class="mb-4 pb-2 px-md-5 mx-md-5"> {{ poll.detail }} </p>
-            <a class="btn peach-gradient">Create by : {{ poll.create_by }}</a>
-
-          </div>
+      <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mb-5 border-right pr-5">
+                <h1 class='display-3'>
+                    <span> {{ poll.subject }}</span>
+                </h1>
+                <p class="mt-4 display-5"> {{ poll.detail }}</p>
+                <p class="display-5"> สร้างโดย : {{ poll.create_by }}</p>
+            </div>
+            <div class="col-lg-4 mt-5">
+                <img src="{{ poll.picture.url }}" alt="" class='img-fluid'>
+            </div>
         </div>
-      </div>
+    </div>
 
-    <h1 class='mb-5'>Choices</h1>
-    <div class='container text-center'>
+    
+    <h1 class='my-5'>ตัวเลือก</h1>
+    <div class='container text-center mb-5'>
         <div class="row">
             {% for choice in choices %}
             <div class="col-md-3 my-3">
@@ -36,8 +38,10 @@
                         <li class="list-group-item">
                             {% if not already_vote and poll.end_date|date:'Y-m-d H:i' > now|date:'Y-m-d H:i' %}
                                 <a href="{% url 'vote' choice.id %}" class='btn btn-warning'>โหวต</a>
-                            {% else %}
+                            {% elif already_vote %}
                                 <p class='text-success mt-5'> คุณได้โหวตไปแล้ว </p>
+                            {% else %}
+                                <p class="text-danger mt-5"> หมดเวลาโหวตแล้ว</p>
                             {% endif %}
                         </li>
                     </ul>
@@ -46,14 +50,11 @@
             {% endfor %}
         </div>
     </div>
-    {% if already_vote or poll.end_date|date:'Y-m-d H:i' <= now|date:'Y-m-d H:i' %}
-        <h1>แสดงข้อมูลผลลัพธ์การโหวต</h1>
-        <ul>
-            {% for vote in poll.poll_vote_set.all %}
-                <li>{{ vote.vote_by }} โหวต {{ vote.choice_id }}</li>
-            {% endfor %}
-        </ul>
-        <hr>
-        {{ graph|safe }}
-    {% endif %}
+    
+    <div class="container">
+        {% if already_vote or poll.end_date|date:'Y-m-d H:i' <= now|date:'Y-m-d H:i' %}
+            <h1 class='mb-5'>ผลลัพธ์การโหวต</h1>
+            {{ graph|safe }}
+        {% endif %}
+    </div>
 {% endblock %}
