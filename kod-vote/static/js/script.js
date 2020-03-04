@@ -9,3 +9,9 @@ $(function () {
         minDate : new Date()
     });
 });
+
+/* Auto popup modal if poll request password */
+$('#myModal').modal({
+    backdrop: 'static',
+    keyboard: false
+});

@@ -3,7 +3,13 @@
     แก้ไข {{ poll.subject }}
 {% endblock %}
 {% block content %}
-    <h1>แก้ไข Poll ({{ poll.subject }}) </h1>
+    <h1>
+        แก้ไขกระทู้ ({{ poll.subject }})
+        {% if poll.is_active == True and poll.end_date|date:'Y-m-d H:i' > now|date:'Y-m-d H:i' %}
+            <a href="{% url 'close' poll.id %}" class='btn btn-danger'>ปิดโหวต</a>
+        {% endif %}
+    </h1>
+
     <br>
     {% if success %}
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -55,7 +61,7 @@
         <div class="row">
             {% for choice in poll.poll_choice_set.all %}
                 <div class="col-md-3 my-3">
-                    <div class="card h-100 w-100">
+                    <div class="card h-100 w-100 p-3">
                         <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
                         <div class="card-body">
                             <p class="card-text">

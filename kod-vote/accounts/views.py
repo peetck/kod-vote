@@ -58,8 +58,13 @@ def signup_view(request):
 
 @login_required
 def my_polls_view(request):
-    context = {}
     polls = Poll.objects.filter(create_by=request.user).order_by('-start_date')
-    context['polls'] = polls
-    context['now'] = datetime.datetime.now()
+
+    # check date
+    for poll in polls:
+        poll.is_available()
+
+    context = {
+        'polls' : polls
+    }
     return render(request, 'mypolls.html', context)

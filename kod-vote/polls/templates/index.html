@@ -33,17 +33,17 @@
 
     <!-- Poll List -->
 
-    <h1 class='text-center my-5'> Poll ทั้งหมดบนเว็บไซต์</h1>
+    <h1 class='text-center my-5'> กระทู้โหวตทั้งหมด</h1>
 
     <ul class="nav nav-tabs nav-justified mb-5" id="nav-tab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="available-tab" data-toggle="tab" href="#available" role="tab" aria-controls="available" aria-selected="true">
-                <h3 class='text-dark'>เปิดอยู่</h3>
+                <h3 class='text-dark'>Avaliable</h3>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="closed-tab" data-toggle="pill" href="#closed" role="tab" aria-controls="closed" aria-selected="false">
-                <h3 class='text-dark'>ปิดแล้ว</h3>
+                <h3 class='text-dark'>Closed</h3>
             </a>
         </li>
     </ul>
@@ -52,10 +52,10 @@
             <!-- Available Poll List sorted by lastest -->
             <div class="container">
                 <div class="row">
-                    {% for poll in polls_avaliable %}
+                    {% for poll in available %}
                         <div class="col-md-3 my-3">
-                            <div class="card h-100 w-100">
-                                <img class=" card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
+                            <div class="card h-100 w-100 p-3">
+                                <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         <b>{{ poll.subject }}</b>
@@ -65,21 +65,9 @@
                                     </p>
                                 </div>
                                 <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            {% if poll.start_date|date:'Y-m-d H:i' <= now|date:'Y-m-d H:i' %}
-                                                <a href="{% url 'detail' poll.id %}" class='btn btn-warning'>โหวต</a>
-                                                {% if poll.create_by == user %}
-                                                    <a href="{% url 'edit' poll.id %}" class='btn btn-danger'>แก้ไข</a>
-                                                {% endif %}
-                                            {% else %}
-                                                <span href="{% url 'detail' poll.id %}" class='btn btn-secondary'>โหวต</span>
-                                                {% if poll.create_by == user %}
-                                                    <a href="{% url 'edit' poll.id %}" class='btn btn-danger'>แก้ไข</a>
-                                                {% endif %}
-                                            {% endif %}
-
-
-                                        </li>
+                                    <li class="list-group-item">
+                                        <a href="{% url 'detail' poll.id %}" class='btn btn-warning'>โหวต</a>
+                                    </li>
                                 </ul>
                                 <div class="card-footer">
                                     <small class="text-muted">
@@ -99,9 +87,9 @@
             <!-- Closed Poll List sorted by lastest -->
             <div class="container">
                 <div class="row">
-                    {% for poll in polls_closed %}
+                    {% for poll in closed %}
                         <div class="col-md-3 my-3">
-                            <div class="card h-100 w-100">
+                            <div class="card h-100 w-100 text-muted p-3">
                                 <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title">
@@ -118,7 +106,7 @@
                                 </ul>
                                 <div class="card-footer">
                                     <small class="text-muted">
-                                        <b>หมดเวลาตอน</b> : {{ poll.end_date|date:'d/m/Y H:i' }}<br>
+                                        <b>หมดเวลาตอน</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br>
                                         <b>โดย</b> : {{ poll.create_by }}
                                     </small>
                                 </div>

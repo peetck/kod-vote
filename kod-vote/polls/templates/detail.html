@@ -6,6 +6,32 @@
 
 {% block content %}
 
+    {% if poll.password != '' and passed == False %}
+        <div class="modal fade in" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">กระทู้นี้ต้องการรหัสผ่าน</h5>
+                    </div>
+                    <form action="{% url 'detail' poll.id %}" method="GET">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-form-label">รหัสผ่าน:</label>
+                                <input type="password" class="form-control" name='password'>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{% url 'index' %}" class='btn btn-secondary'>
+                                Close
+                            </a>
+                            <button type="submit" class='btn btn-primary'>ยืนยัน</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
       <div class="container">
         <div class="row">
             <div class="col-lg-8 mb-5 border-right pr-5">
@@ -21,13 +47,13 @@
         </div>
     </div>
 
-    
+
     <h1 class='my-5'>ตัวเลือก</h1>
     <div class='container text-center mb-5'>
         <div class="row">
             {% for choice in choices %}
             <div class="col-md-3 my-3">
-                <div class="card h-100 w-100">
+                <div class="card h-100 w-100 p-3">
                     <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
                     <div class="card-body">
                         <p class="card-text">
@@ -36,12 +62,12 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            {% if not already_vote and poll.end_date|date:'Y-m-d H:i' > now|date:'Y-m-d H:i' %}
-                                <a href="{% url 'vote' choice.id %}" class='btn btn-warning'>โหวต</a>
-                            {% elif poll.end_date|date:'Y-m-d H:i' <= now|date:'Y-m-d H:i' %}
-                                <p class="text-danger mt-5"> หมดเวลาโหวตแล้ว</p>
-                            {% else %} 
+                            {% if already_vote %}
                                 <p class='text-success mt-5'> คุณได้โหวตไปแล้ว </p>
+                            {% elif poll.is_active == True %}
+                                <a href="{% url 'vote' choice.id %}" class='btn btn-warning'>โหวต</a>
+                            {% else %}
+                                <p class="text-danger mt-5"> ไม่สามารถโหวตได้</p>
                             {% endif %}
                         </li>
                     </ul>
@@ -50,9 +76,8 @@
             {% endfor %}
         </div>
     </div>
-    
     <div class="container">
-        {% if already_vote or poll.end_date|date:'Y-m-d H:i' <= now|date:'Y-m-d H:i' %}
+        {% if poll.is_active == False or already_vote %}
             <h1 class='mb-5'>ผลลัพธ์การโหวต</h1>
             {{ graph|safe }}
         {% endif %}

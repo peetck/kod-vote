@@ -9,9 +9,12 @@ class ChoiceInline(admin.StackedInline): # inline
 
 class PollAdmin(admin.ModelAdmin):
     list_display = [
+        'id',
         'subject',
         'detail',
+        'start_date',
         'end_date',
+        'is_active',
         'create_by'
     ]
     list_per_page = 10
@@ -22,6 +25,7 @@ class PollAdmin(admin.ModelAdmin):
 
 class Poll_ChoiceAdmin(admin.ModelAdmin):
     list_display = [
+        'id',
         'poll_id',
         'subject'
     ]
