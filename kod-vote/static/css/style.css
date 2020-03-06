@@ -17,4 +17,12 @@ body{
     text-decoration: underline;
 }
 
+.card-index{
+    transition: .2s;
+}
+
+.card-index:hover{
+    box-shadow: 0 4px 8px 0 gray;
+    margin-top: 2%;
+}
 

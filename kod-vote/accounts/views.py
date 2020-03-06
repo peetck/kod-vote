@@ -19,7 +19,7 @@ def login_view(request):
                 return redirect(next_url)
             else:
                 return redirect('index')
-        context['error'] = 'error'
+        context['error'] = 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง'
     next_url = request.GET.get('next')
     context['next_url'] = next_url
     return render(request, 'login.html', context)
@@ -40,7 +40,7 @@ def signup_view(request):
         last_name = request.POST.get('lastname')
 
         if (User.objects.filter(username=username).exists()):
-            context['error'] = 'Username has already been taken!!'
+            context['error'] = 'ชื่อผู้ใช้งานนี้มีคนใช้แล้ว'
             return render(request, 'signup.html', context)
         if (password == confirm_password):
             user = User.objects.create_user(
@@ -52,7 +52,7 @@ def signup_view(request):
             )
             login(request, user)
             return redirect('index')
-        context['error'] = 'Password doesn\'t match!!'
+        context['error'] = 'ยืนยันรหัสผ่านไม่เหมือนกัน'
     return render(request, 'signup.html', context)
 
 
