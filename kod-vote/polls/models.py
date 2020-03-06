@@ -6,12 +6,12 @@ from django.db import models
 # Create your models here.
 
 class Poll(models.Model):
-    subject = models.CharField(max_length=255, null=False)
-    detail = models.TextField(null=False)
+    subject = models.CharField(max_length=255, blank=False)
+    detail = models.TextField(blank=False)
     picture = models.ImageField(default='poll/default.png', upload_to='poll/')
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField()
-    password = models.CharField(max_length=255, default='')
+    password = models.CharField(max_length=255, blank=False)
     create_by = models.ForeignKey(User, on_delete=models.CASCADE)
     create_date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
@@ -26,7 +26,7 @@ class Poll(models.Model):
         return self.is_active
 
 class Poll_Choice(models.Model):
-    subject = models.CharField(max_length=255, null=False)
+    subject = models.CharField(max_length=255, blank=False)
     image = models.ImageField(default='choice/default.png', upload_to='choice/')
     poll_id = models.ForeignKey(Poll, on_delete=models.CASCADE)
 
