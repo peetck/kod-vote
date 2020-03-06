@@ -73,7 +73,7 @@ def detail_view(request, poll_id):
 
     # pygal
     if not poll.is_available() or already_vote:
-        chart = pygal.Bar(width=1000, min_scale=1)
+        chart = pygal.HorizontalBar(width=1000, min_scale=1)
         chart.title = f"ผลลัพธ์ของ : {poll.subject}"
         for choice in choices:
             chart.add(choice.subject, choice.poll_vote_set.all().count())
@@ -158,7 +158,7 @@ def add_choice_view(request, poll_id):
         return redirect('index')
     if request.method == 'POST':
         try:
-            image = request.FILES['picture']
+            image = request.FILES['image']
         except:
             image = None
         choice = Poll_Choice(
