@@ -13,10 +13,19 @@ body{
     to   { opacity: 1; }
 }
 
+.rotate-img{
+    transition: .3s;
+}
+
+.rotate-img:hover{
+    transform: rotate(5deg);
+}
+
 .index-create-poll-btn:hover{
     text-decoration: underline;
 }
 
+/* card hover animation */
 .mycard{
     transition: .2s;
 }
@@ -26,3 +35,24 @@ body{
     margin-top: 2%;
 }
 
+/* make card to have same height */
+.wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.wrapper:after {
+    content: '';
+    display: block;
+    padding-top: 100%;
+}
+
+.wrapper img {
+    width: auto;
+    height: 100%;
+    max-width: none;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+}

@@ -41,8 +41,8 @@
                 <p class="mt-4 display-5"> {{ poll.detail }}</p>
                 <p class="display-5"> สร้างโดย : {{ poll.create_by }}</p>
             </div>
-            <div class="col-lg-4 mt-5">
-                <img src="{{ poll.picture.url }}" alt="" class='img-fluid'>
+            <div class="col-lg-4 pl-5">
+                <img src="{{ poll.picture.url }}" alt="" class='img-fluid rotate-img'>
             </div>
         </div>
     </div>
@@ -55,7 +55,9 @@
                 {% if already_vote == False and poll.is_active == True %}
                     <a href="{% url 'vote' choice.id %}" class='text-decoration-none col-md-3 my-3'>
                         <div class="card h-100 w-100 p-3 text-dark mycard">
-                            <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
+                            <div class="wrapper">
+                                <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
+                            </div>
                             <div class="card-body">
                                 <p class="card-title">
                                     {{ choice.subject }}
@@ -66,7 +68,9 @@
                 {% else %}
                     <div class='col-md-3 my-3'>
                         <div class="card h-100 w-100 p-3 text-dark mycard">
-                            <img class="card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
+                            <div class="wrapper">
+                                <img class="card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
+                            </div>
                             <div class="card-body">
                                 <p class="card-title">
                                     {{ choice.subject }}
