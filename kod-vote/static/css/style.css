@@ -17,11 +17,11 @@ body{
     text-decoration: underline;
 }
 
-.card-index{
+.mycard{
     transition: .2s;
 }
 
-.card-index:hover{
+.mycard:hover{
     box-shadow: 0 4px 8px 0 gray;
     margin-top: 2%;
 }

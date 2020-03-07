@@ -53,7 +53,7 @@
                 <div class="row">
                     {% for poll in available %}
                         <a class="col-md-3 my-3 text-decoration-none" href="{% url 'detail' poll.id %}">
-                            <div class="card h-100 w-100 p-3 text-dark card-index">
+                            <div class="card h-100 w-100 p-3 text-dark mycard">
                                 <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title">
@@ -88,7 +88,7 @@
                 <div class="row">
                     {% for poll in closed %}
                         <a class="col-md-3 my-3 text-decoration-none" href="{% url 'detail' poll.id %}">
-                            <div class="card h-100 w-100 p-3 text-dark card-index">
+                            <div class="card h-100 w-100 p-3 text-dark mycard">
                                 <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title">

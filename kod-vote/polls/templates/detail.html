@@ -52,27 +52,40 @@
     <div class='container text-center mb-5'>
         <div class="row">
             {% for choice in choices %}
-            <div class="col-md-3 my-3">
-                <div class="card h-100 w-100 p-3">
-                    <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">
-                            {{ choice.subject }}
-                        </p>
+                {% if already_vote == False and poll.is_active == True %}
+                    <a href="{% url 'vote' choice.id %}" class='text-decoration-none col-md-3 my-3'>
+                        <div class="card h-100 w-100 p-3 text-dark mycard">
+                            <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
+                            <div class="card-body">
+                                <p class="card-title">
+                                    {{ choice.subject }}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                {% else %}
+                    <div class='col-md-3 my-3'>
+                        <div class="card h-100 w-100 p-3 text-dark mycard">
+                            <img class="card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
+                            <div class="card-body">
+                                <p class="card-title">
+                                    {{ choice.subject }}
+                                </p>
+                                <p class="card-text">
+                                    {% if already_vote %}
+                                        <span class='text-success'>
+                                            คุณได้โหวตไปแล้ว
+                                            <br>
+                                            ({{ vote_choice }})
+                                        </span>
+                                    {% elif poll.is_active == False %}
+                                        <span class="text-danger">ไม่สามารถโหวตได้</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            {% if already_vote %}
-                                <p class='text-success mt-5'> คุณได้โหวตไปแล้ว </p>
-                            {% elif poll.is_active == True %}
-                                <a href="{% url 'vote' choice.id %}" class='btn btn-warning'>โหวต</a>
-                            {% else %}
-                                <p class="text-danger mt-5"> ไม่สามารถโหวตได้</p>
-                            {% endif %}
-                        </li>
-                    </ul>
-                </div>
-            </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

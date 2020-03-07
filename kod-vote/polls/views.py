@@ -67,6 +67,7 @@ def detail_view(request, poll_id):
     for vote in poll.poll_vote_set.all():
         if vote.vote_by == request.user:
             already_vote = True
+            context['vote_choice'] = vote.choice_id.subject
 
     choices = poll.poll_choice_set.all()
     context['choices'] = choices
