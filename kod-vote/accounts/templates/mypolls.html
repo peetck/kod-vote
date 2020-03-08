@@ -1,5 +1,5 @@
 {% extends 'base_layout.html' %}
-
+{% load static %}
 {% block title %}
     กระทู้ของฉัน
 {% endblock %}
@@ -9,41 +9,39 @@
     <div class="container mt-5">
         <div class="row">
             {% for poll in polls %}
-                <div class="col-lg-3 my-3">
-                    <div class="card h-100 w-100 p-3">
-                        <div class="wrapper">
-                            <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
+                <div class='col-md-3'>
+                    <a href="{% url 'poll_delete' poll.id %}">ลบ
+                    </a>
+                    <a class="my-3 text-decoration-none" href="{% url 'edit' poll.id %}">
+                        <div class="card h-100 w-100 p-3 text-dark mycard">
+                            <div class="wrapper">
+                                <img class="card-img-top" src="{{ poll.picture.url }}">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <b>{{ poll.subject }}</b>
+                                </h5>
+                                <p class="card-text">
+                                    {{ poll.detail|truncatechars:20 }}
+                                </p>
+                            </div>
+                            <div class="container mb-3 ml-1">
+                                <p class="card-text">
+                                    {% if poll.is_active %}
+                                        <span class="badge badge-pill badge-success text-light">Available</span>
+                                    {% else %}
+                                        <span class="badge badge-pill badge-danger text-light">Closed</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">
+                                    <b>เริ่ม</b> : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
+                                    <b>สิ้นสุด</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br>
+                                </small>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <b>{{ poll.subject }}</b>
-                            </h5>
-                            <p class="card-text">
-                                {{ poll.detail|truncatechars:20 }}
-                            </p>
-                        </div>
-                        <div class="container mb-3 ml-1">
-                            <p class="card-text">
-                                {% if poll.is_active %}
-                                    <span class="badge badge-pill badge-success text-light">Available</span>
-                                {% else %}
-                                    <span class="badge badge-pill badge-danger text-light">Closed</span>
-                                {% endif %}
-                            </p>
-                        </div>
-                        <ul class="list-group list-group-flush m-0">
-                            <li class="list-group-item">
-                                <a href="{% url 'edit' poll.id %}" class='btn btn-warning'>แก้ไข</a>
-                                <a href="{% url 'poll_delete' poll.id %}" class='btn btn-danger'>ลบ</a>
-                            </li>
-                        </ul>
-                        <div class="card-footer">
-                            <small class="text-muted">
-                                <b>เริ่ม</b> : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
-                                <b>สิ้นสุด</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br>
-                            </small>
-                        </div>
-                    </div>
+                    </a>
                 </div>
             {% endfor %}
         </div>

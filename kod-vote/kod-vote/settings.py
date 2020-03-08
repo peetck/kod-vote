@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # my own app
     'polls',
-    'accounts'
+    'accounts',
+    # django-cleanup
+    'django_cleanup'
 ]
 
 MIDDLEWARE = [
