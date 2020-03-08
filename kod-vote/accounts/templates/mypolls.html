@@ -9,7 +9,7 @@
     <div class="container mt-5">
         <div class="row">
             {% for poll in polls %}
-                <div class='col-md-3 my-3'>
+                <div class='col-lg-3 my-3'>
                     <div class="card h-100 w-100 text-dark mycard">
                         <a href="{% url 'poll_delete' poll.id %}">
                             <img src="{% static 'images/close.png' %}" alt="" class='delete-btn' width='35px'>
