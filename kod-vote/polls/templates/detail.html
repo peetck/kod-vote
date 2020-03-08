@@ -42,7 +42,7 @@
                 <p class="display-5"> สร้างโดย : {{ poll.create_by }}</p>
             </div>
             <div class="col-lg-4 pl-5">
-                <img src="{{ poll.picture.url }}" alt="" class='img-fluid rotate-img'>
+                <img src="{{ poll.picture.url }}" alt="" class='img-fluid rotate-img' style='border: solid 3px black'>
             </div>
         </div>
     </div>
@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    <h1 class='my-5'>ตัวเลือก</h1>
+    <h1 class='my-5'>ตัวเลือก <span class="badge badge-pill badge-primary text-light"> {{ choices|length }}</span></h1>
     <div class='container text-center mb-5'>
         <div class="row">
             {% for choice in choices %}
