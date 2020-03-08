@@ -5,7 +5,7 @@
 {% block content %}
     <h1>
         แก้ไขกระทู้ ({{ poll.subject }})
-        {% if poll.is_active == True and poll.end_date|date:'Y-m-d H:i' > now|date:'Y-m-d H:i' %}
+        {% if poll.is_active == True %}
             <a href="{% url 'close' poll.id %}" class='btn btn-danger'>ปิดโหวต</a>
         {% endif %}
     </h1>
@@ -32,13 +32,13 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-3">
-                <label>เริ่มโหวตได้ตอน</label>
+                <label>เวลาเปิดกระทู้</label>
                 <p class="form-control datetimepicker-input">
                     {{ poll.start_date|date:'d/m/Y H:i' }}
                 </p>
             </div>
             <div class="form-group col-md-3">
-                <label>เวลาปิด Poll</label>
+                <label>เวลาปิดกระทู้</label>
                 <p class="form-control datetimepicker-input">
                     {{ poll.end_date|date:'d/m/Y H:i' }}
                 </p>
@@ -61,7 +61,7 @@
         <div class="row">
             {% for choice in poll.poll_choice_set.all %}
                 <div class="col-md-3 my-3">
-                    <div class="card h-100 w-100 p-3 mycard">
+                    <div class="card h-100 w-100 mycard">
                         <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
                         <div class="card-body">
                             <p class="card-text">

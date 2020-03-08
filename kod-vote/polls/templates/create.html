@@ -5,20 +5,20 @@
 {% endblock %}
 
 {% block content %}
-    <h1>สร้างกระทู้ <img width='45' src="{% static 'images/create_poll.png' %}" alt=""> </h1>
+    <h1 class='mb-3'>สร้างกระทู้ <img width='45' src="{% static 'images/create_poll.png' %}" alt=""> </h1>
     <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
             <label>ชื่อ</label>
-            <input type="text" class="form-control" name='subject' placeholder="Enter poll name" required>
+            <input type="text" class="form-control" name='subject' placeholder="ชื่อกระทู้" required>
         </div>
         <div class="form-group">
             <label>รายละเอียด</label>
-            <textarea class='form-control' name="detail" id="" cols="30" rows="10" required></textarea>
+            <textarea class='form-control' name="detail" id="" cols="30" rows="10" required placeholder="รายละเอียดต่างๆเกี่ยวกับกระทู้"></textarea>
         </div>
         <div class="form-row">
             <div class="form-group col-md-3">
-                <label for="start_date">เริ่มโหวตได้ตอน</label>
+                <label for="start_date">เวลาเปิดกระทู้</label>
                 <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
                     <input name='start_date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" required/>
                     <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="form-group col-md-3">
-                <label for="end_date">เวลาปิด Poll</label>
+                <label for="end_date">เวลาปิดกระทู้</label>
                 <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
                     <input name='end_date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" required/>
                     <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
@@ -39,16 +39,17 @@
         <div class="form-row">
             <div class="form-group col-md-3">
                 <label for="password">รหัสผ่าน</label>
-                <input type="password" class="form-control" name='password' placeholder="Password">
+                <input type="password" class="form-control" name='password' placeholder="">
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group ml-1">
                 <label>รูปภาพ</label>
                 <div class="custom-file">
-                    <input type="file" name='picture'>
+                    <input type="file" class='custom-file-input' name='picture' id="input-file">
+                    <label class="custom-file-label" for="input-file">อัพโหลดไฟล์</label>
                 </div>
             </div>
         </div>
 
-        <button type="submit" class='btn btn-primary'>สร้าง</button>
+        <button type="submit" class='btn btn-primary'>สร้างกระทู้</button>
     </form>
 {% endblock %}

@@ -8,14 +8,14 @@ import datetime
 # Create your views here.
 def login_view(request):
     context = {}
-    if (request.method == 'POST'):
+    if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        if (user):
+        if user:
             login(request, user)
             next_url = request.POST.get('next_url')
-            if (next_url != 'None'):
+            if next_url != 'None':
                 return redirect(next_url)
             else:
                 return redirect('index')
@@ -42,6 +42,12 @@ def signup_view(request):
         if (User.objects.filter(username=username).exists()):
             context['error'] = 'ชื่อผู้ใช้งานนี้มีคนใช้แล้ว'
             return render(request, 'signup.html', context)
+        if len(username) < 6:
+            context['error'] = 'ชื่อผู้ใช้งานต้องมีขนาดอย่างน้อย 6 ตัวอักษรขึ้นไป'
+            return render(request, 'signup.html', context)
+        if len(password) < 8:
+            context['error'] = 'รหัสผ่านต้องมีขนาดอย่างน้อย 8 ตัวอักษรขึ้นไป'
+            return render(request, 'signup.html', context)
         if (password == confirm_password):
             user = User.objects.create_user(
                 username=username,
@@ -52,7 +58,7 @@ def signup_view(request):
             )
             login(request, user)
             return redirect('index')
-        context['error'] = 'ยืนยันรหัสผ่านไม่เหมือนกัน'
+        context['error'] = 'ยืนยันรหัสผ่านไม่ตรงกัน'
     return render(request, 'signup.html', context)
 
 

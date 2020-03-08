@@ -21,7 +21,7 @@
                 <p class="mt-4 display-5">เว็บไซต์นี้เป็นส่วนหนึ่งของวิชา Web programming KMITL 2019</p>
 
                 <div>
-                    <a href="{% url 'create' %}" class='btn btn-primary p-3 mt-3 ml-5 index-create-poll-btn'>สร้าง Poll ของคุณ</a>
+                    <a href="{% url 'create' %}" class='btn btn-primary p-3 mt-3 ml-5 index-create-poll-btn'>สร้างกระทู้ของคุณ</a>
                 </div>
 
             </div>
@@ -37,12 +37,12 @@
     <ul class="nav nav-tabs nav-justified mb-5" id="nav-tab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="available-tab" data-toggle="tab" href="#available" role="tab" aria-controls="available" aria-selected="true">
-                <h3 class='text-dark'>เปิดอยู่</h3>
+                <h3 class='text-dark'>เปิดอยู่ <span class="badge badge-pill badge-success text-light"> {{ available|length }}</span></h3>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="closed-tab" data-toggle="pill" href="#closed" role="tab" aria-controls="closed" aria-selected="false">
-                <h3 class='text-dark'>ปิด</h3>
+                <h3 class='text-dark'>ปิด <span class="badge badge-pill badge-danger text-light"> {{ closed|length }}</span></h3>
             </a>
         </li>
     </ul>
@@ -53,7 +53,7 @@
                 <div class="row">
                     {% for poll in available %}
                         <a class="col-md-3 my-3 text-decoration-none" href="{% url 'detail' poll.id %}">
-                            <div class="card h-100 w-100 p-3 text-dark mycard">
+                            <div class="card h-100 w-100 text-dark mycard">
                                 <div class="wrapper">
                                     <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
                                 </div>
@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="container mb-3 ml-1">
                                     <p class="card-text">
-                                        <span class="badge badge-pill badge-success text-light">Available</span>
+                                        <span class="badge badge-pill badge-success text-light">Open</span>
                                     </p>
                                 </div>
                                 <div class="card-footer">
@@ -90,7 +90,7 @@
                 <div class="row">
                     {% for poll in closed %}
                         <a class="col-md-3 my-3 text-decoration-none" href="{% url 'detail' poll.id %}">
-                            <div class="card h-100 w-100 p-3 text-dark mycard">
+                            <div class="card h-100 w-100 text-dark mycard">
                                 <div class="wrapper">
                                     <img class="card-img-top" src="{{ poll.picture.url }}" alt="Card image cap">
                                 </div>

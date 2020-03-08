@@ -56,3 +56,11 @@ body{
     top: 0;
     transform: translateX(-50%);
 }
+
+.delete-btn{
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(50%,-50%);
+    z-index: 100;
+}

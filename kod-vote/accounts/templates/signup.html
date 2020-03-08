@@ -20,32 +20,34 @@
                         </button>
                     </div>
                 {% endif %}
-                <form method="POST" action="{% url 'signup' %}">
+                <form method="POST" action="{% url 'signup' %}" class='needs-validation' novalidate>
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="exampleInputEmail1">ชื่อผู้ใช้งาน</label>
-                        <input type="text" class="form-control" name='username' placeholder="Enter username" required>
+                        <label>ชื่อผู้ใช้งาน</label>
+                        <input type="text" class="form-control" name='username' placeholder="" required>
+                        <small class="form-text text-muted">มีขนาดอย่างน้อย 6 ตัวอักษรขึ้นไป</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">รหัสผ่าน</label>
-                        <input type="password" class="form-control" name='password' placeholder="Enter password" required>
-                        <small class="form-text text-muted">We'll never share your password with anyone else.</small>
+                        <label>รหัสผ่าน</label>
+                        <input type="password" class="form-control" name='password' placeholder="" required>
+                        <small class="form-text text-muted">มีขนาดอย่างน้อย 8 ตัวอักษรขึ้นไป</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">ยืนยันรหัสผ่าน</label>
-                        <input type="password" class="form-control" name='confirm_password' placeholder="Enter password" required>
+                        <label>ยืนยันรหัสผ่าน</label>
+                        <input type="password" class="form-control" name='confirm_password' placeholder="" required>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">อีเมล์</label>
-                        <input type="email" class="form-control" name='email' placeholder="Enter your email" required>
+                        <label>อีเมล์</label>
+                        <input type="email" class="form-control" name='email' placeholder="" required>
+                        <small class="form-text text-muted">เช่น example@example.com</small>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">ชื่อจริง</label>
-                        <input type="text" class="form-control" name='firstname' placeholder="First name" required>
+                        <label>ชื่อจริง</label>
+                        <input type="text" class="form-control" name='firstname' placeholder="ชื่อจริง" required>
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">นามสกุล</label>
-                        <input type="text" class="form-control" name='lastname' placeholder="Last name" required>
+                        <label>นามสกุล</label>
+                        <input type="text" class="form-control" name='lastname' placeholder="นามสกุล" required>
                     </div>
                     <button type="submit" class='btn btn-primary'>สมัครสมาชิก</button>
                 </form>

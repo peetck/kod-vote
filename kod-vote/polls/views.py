@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 import pygal
 from django.utils import timezone
 from datetime import datetime
+from django.contrib.auth.models import User
 
 # Create your views here.
 @login_required
@@ -63,11 +64,12 @@ def detail_view(request, poll_id):
     context = {
         'poll' : poll
     }
-
-    for vote in poll.poll_vote_set.all():
+    votes = poll.poll_vote_set.all()
+    for vote in votes:
         if vote.vote_by == request.user:
             already_vote = True
             context['vote_choice'] = vote.choice_id.subject
+            break
 
     choices = poll.poll_choice_set.all()
     context['choices'] = choices
@@ -89,6 +91,12 @@ def detail_view(request, poll_id):
 
     context['passed'] = passed
 
+    number_of_users = User.objects.all().count()
+    number_of_votes = votes.count()
+    context['number_of_users'] = number_of_users
+    context['number_of_votes'] = number_of_votes
+    context['left'] = number_of_users - number_of_votes
+
     return render(request, 'detail.html', context)
 
 @login_required
@@ -100,11 +108,14 @@ def vote_view(request, choice_id):
         if vote.poll_id == poll:
             # already vote
             return redirect('detail', poll_id=poll.id)
-    vote = Poll_Vote.objects.create(
-        poll_id=poll,
-        choice_id=choice,
-        vote_by=request.user
-    )
+
+    if poll.is_available():
+        vote = Poll_Vote.objects.create(
+            poll_id=poll,
+            choice_id=choice,
+            vote_by=request.user
+        )
+
     return redirect('detail', poll_id=poll.id)
 
 @login_required
@@ -127,13 +138,15 @@ def edit_view(request, poll_id):
 
         context['success'] = 'แก้ไขกระทู้เรียบร้อยแล้ว'
 
+    poll.is_available()
+
     return render(request, 'edit.html', context)
 
 @login_required
 def close_view(request, poll_id):
     poll = Poll.objects.get(id=poll_id)
 
-    if poll.create_by == request.user:
+    if poll.create_by == request.user and poll.is_active == True:
         poll.is_active = False
         poll.end_date = timezone.now()
         poll.save()
