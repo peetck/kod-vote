@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 import pygal
 from django.utils import timezone
 from datetime import datetime
+import pytz
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -38,8 +39,6 @@ def create_view(request):
         start_date = datetime.strptime(request.POST.get('start_date'), '%d/%m/%Y %H:%M')
         end_date = datetime.strptime(request.POST.get('end_date'), '%d/%m/%Y %H:%M')
         password = request.POST.get('password').strip()
-        print(start_date)
-        print(end_date)
 
         poll = Poll(
                 subject=subject,
@@ -55,7 +54,9 @@ def create_view(request):
 
         poll.save()
 
-        return redirect('mypolls')
+        response = redirect('mypolls')
+        response['Location'] += f'?msg=success'
+        return response
 
     return render(request, 'create.html')
 
@@ -86,18 +87,13 @@ def detail_view(request, poll_id):
 
     context['already_vote'] = already_vote
 
-    passed = False
-
-    if poll.password == request.GET.get('password') or already_vote:
-        passed = True
-
-    context['passed'] = passed
-
     number_of_users = User.objects.all().count()
     number_of_votes = votes.count()
     context['number_of_users'] = number_of_users
     context['number_of_votes'] = number_of_votes
     context['left'] = number_of_users - number_of_votes
+
+    context['success'] = request.GET.get('success')
 
     return render(request, 'detail.html', context)
 
@@ -111,36 +107,62 @@ def vote_view(request, choice_id):
             # already vote
             return redirect('detail', poll_id=poll.id)
 
-    if poll.is_available():
+    poll.is_available() # check date
+    success = 'success'
+    if poll.password == '':
         vote = Poll_Vote.objects.create(
             poll_id=poll,
             choice_id=choice,
             vote_by=request.user
         )
+    else:
+        password = request.POST.get('password').strip()
+        if password == poll.password:
+            vote = Poll_Vote.objects.create(
+                poll_id=poll,
+                choice_id=choice,
+                vote_by=request.user
+            )
+        else:
+            success = 'n-success'
 
-    return redirect('detail', poll_id=poll.id)
+    response = redirect('detail', poll_id=poll.id)
+    response['Location'] += f'?success={success}'
+    return response
 
 @login_required
 def edit_view(request, poll_id):
     poll = Poll.objects.get(id=poll_id)
     if request.user != poll.create_by:
         return redirect('index')
-    context = {'poll' : poll}
+    context = {
+        'poll' : poll,
+        'msg' : request.GET.get('msg')
+        }
     if request.method == 'POST':
         subject = request.POST.get('subject')
         detail = request.POST.get('detail')
 
         password = request.POST.get('password')
 
+        start_date = (datetime.strptime(request.POST.get('start_date'), '%d/%m/%Y %H:%M'))
+        end_date =  (datetime.strptime(request.POST.get('end_date'), '%d/%m/%Y %H:%M'))
+
+        try:
+            picture = request.FILES['picture']
+            poll.picture = picture
+        except:
+            pass
+
         poll.subject = subject
         poll.detail = detail
         poll.password = password
+        poll.start_date = start_date
+        poll.end_date = end_date
 
         poll.save()
 
         context['success'] = 'แก้ไขกระทู้เรียบร้อยแล้ว'
-
-    poll.is_available()
 
     return render(request, 'edit.html', context)
 
@@ -162,7 +184,9 @@ def poll_delete_view(request, poll_id):
     if poll.create_by == request.user:
         poll.delete()
 
-    return redirect('mypolls')
+    response = redirect('mypolls')
+    response['Location'] += f'?msg=delete'
+    return response
 
 @login_required
 def add_choice_view(request, poll_id):
@@ -184,7 +208,10 @@ def add_choice_view(request, poll_id):
         if image != None:
             choice.image = image
         choice.save()
-        return redirect('edit', poll_id=poll.id)
+
+        response = redirect('edit', poll_id=poll.id)
+        response['Location'] += f'?msg=success'
+        return response
 
     return render(request, 'add_choice.html', context)
 
@@ -198,4 +225,6 @@ def choice_delete_view(request, choice_id):
 
     choice.delete()
 
-    return redirect('edit', poll_id=poll.id)
+    response = redirect('edit', poll_id=poll.id)
+    response['Location'] += f'?msg=delete'
+    return response

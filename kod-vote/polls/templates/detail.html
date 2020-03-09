@@ -5,44 +5,42 @@
 {% endblock %}
 
 {% block content %}
-
-    {% if poll.password != '' and passed == False %}
-        <div class="modal fade in" id="myModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">กระทู้นี้ต้องการรหัสผ่าน</h5>
-                    </div>
-                    <form action="{% url 'detail' poll.id %}" method="GET">
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label class="col-form-label">รหัสผ่าน</label>
-                                <input type="password" class="form-control" name='password'>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="{% url 'index' %}" class='btn btn-secondary'>
-                                ย้อนกลับ
-                            </a>
-                            <button type="submit" class='btn btn-primary'>ยืนยัน</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    {% if success == 'success' %}
+        <div class="alert alert-success mb-5 alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="alert-heading">ทําการโหวตเรียบร้อยแล้ว</h4>
+            <p>
+                ระบบได้บันทึกแล้วว่าคุณ "{{ request.user }}" ได้ทําการโหวตตัวเลือก "{{ vote_choice }}" ของกระทู้ที่มีชื่อว่า "{{ poll.subject }}"
+            </p>
+            <hr>
+            <p class="mb-0">{% now "d/m/Y H:i" %} </p>
+        </div>
+    {% elif success == 'n-success' %}
+        <div class="alert alert-danger mb-5 alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="alert-heading">ทําการโหวตไม่สําเร็จ</h4>
+            <p>
+                กรุณากรอกรหัสผ่านของกระทู้ "{{ poll.subject }}" ให้ถูกต้อง
+            </p>
+            <hr>
+            <p class="mb-0">{% now "d/m/Y H:i" %} </p>
         </div>
     {% endif %}
-
     <div class="container pb-5">
         <div class="row">
             <div class="col-lg-8 mb-5 border-right pr-5">
-                <h1 class='display-3'>
+                <h1 class='display-4'>
                     <span> {{ poll.subject }}</span>
                 </h1>
                 <p class="mt-4 display-5"> {{ poll.detail }}</p>
                 <p class="display-5"> สร้างโดย : {{ poll.create_by }}</p>
             </div>
             <div class="col-lg-4 pl-5">
-                <img src="{{ poll.picture.url }}" alt="" class='img-fluid rotate-img' style='border: solid 3px black'>
+                <img src="{{ poll.picture.url }}" alt="" class='img-fluid rotate-img'>
             </div>
         </div>
     </div>
@@ -50,7 +48,7 @@
     <div class="container text-center py-5">
         <div class="row">
             <div class="col-4 border-right border-left">
-                <h1>คนทั้งหมด</h1>
+                <h1>ทั้งหมด</h1>
                 <h3>{{ number_of_users }}</h3>
             </div>
             <div class="col-4 border-right">
@@ -65,25 +63,61 @@
     </div>
 
     <h1 class='my-5'>ตัวเลือก <span class="badge badge-pill badge-primary text-light"> {{ choices|length }}</span></h1>
-    <div class='container text-center mb-5'>
+    <div class='container mb-5'>
         <div class="row">
             {% for choice in choices %}
                 {% if already_vote == False and poll.is_active == True %}
-                    <a href="{% url 'vote' choice.id %}" class='text-decoration-none col-md-3 my-3'>
-                        <div class="card h-100 w-100 text-dark mycard">
-                            <div class="wrapper">
-                                <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
+                    {% if poll.password == '' %}
+                        <a href="{% url 'vote' choice.id %}" class='text-decoration-none col-md-3 my-3'>
+                            <div class="card h-100 w-100 text-dark mycard text-center">
+                                <div class="wrapper">
+                                    <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-title">
+                                        {{ choice.subject }}
+                                    </p>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <p class="card-title">
-                                    {{ choice.subject }}
-                                </p>
+                        </a>
+                    {% else %}
+                        <div type='button' class='col-md-3 my-3' data-toggle="modal" data-target="#myModal">
+                            <div class="card h-100 w-100 text-dark mycard text-center">
+                                <div class="wrapper">
+                                    <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-title">
+                                        {{ choice.subject }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </a>
+                        <div class="modal fade in" id="myModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="myModalLabel">กระทู้นี้ต้องการรหัสผ่านเพื่อโหวต</h5>
+                                    </div>
+                                    <form action="{% url 'vote' choice.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label class="col-form-label">รหัสผ่าน</label>
+                                                <input type="password" class="form-control" name='password'>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class='btn btn-primary'>โหวต</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 {% else %}
                     <div class='col-md-3 my-3'>
-                        <div class="card h-100 w-100 text-dark mycard">
+                        <div class="card h-100 w-100 text-dark mycard text-center">
                             <div class="wrapper">
                                 <img class="card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
                             </div>

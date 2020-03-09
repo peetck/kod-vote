@@ -5,9 +5,6 @@
 {% block content %}
     <h1>
         แก้ไขกระทู้ ({{ poll.subject }})
-        {% if poll.is_active == True %}
-            <a href="{% url 'close' poll.id %}" class='btn btn-danger'>ปิดโหวต</a>
-        {% endif %}
     </h1>
 
     <br>
@@ -19,12 +16,27 @@
             </button>
         </div>
     {% endif %}
+    {% if msg == 'success' %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fa fa-exclamation-circle"></i> เพิ่มตัวเลือกเรียบร้อยแล้ว
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% elif msg == 'delete' %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fa fa-exclamation-circle"></i> ลบตัวเลือกเรียบร้อยแล้ว
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
 
     <form action="{% url 'edit' poll.id %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
             <label>ชื่อ</label>
-            <input type="text" class="form-control" name='subject' placeholder="Enter poll name" value="{{ poll.subject }}">
+            <input type="text" class="form-control" name='subject' placeholder="Enter poll name" value="{{ poll.subject }}" maxlength="50">
         </div>
         <div class="form-group">
             <label>รายละเอียด</label>
@@ -32,16 +44,22 @@
         </div>
         <div class="form-row">
             <div class="form-group col-md-3">
-                <label>เวลาเปิดกระทู้</label>
-                <p class="form-control datetimepicker-input">
-                    {{ poll.start_date|date:'d/m/Y H:i' }}
-                </p>
+                <label for="start_date">เวลาเปิดกระทู้</label>
+                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                    <input value='{{ poll.start_date|date:"d/m/Y H:i" }}' name='start_date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" required/>
+                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
             <div class="form-group col-md-3">
-                <label>เวลาปิดกระทู้</label>
-                <p class="form-control datetimepicker-input">
-                    {{ poll.end_date|date:'d/m/Y H:i' }}
-                </p>
+                <label for="end_date">เวลาปิดกระทู้</label>
+                <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                    <input value='{{ poll.end_date|date:"d/m/Y H:i" }}' name='end_date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" required/>
+                    <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="form-row">
@@ -49,10 +67,23 @@
                 <label for="password">รหัสผ่าน</label>
                 <input type="password" class="form-control" name='password' placeholder="Password" value="{{ poll.password }}">
             </div>
+            <div class="form-group ml-1">
+                <label>รูปภาพ</label>
+                <div class="custom-file">
+
+                    <input type="file" class='custom-file-input' name='picture' id="input-file">
+                    <label class="custom-file-label" for="input-file">{{ poll.picture }}</label>
+                </div>
+            </div>
         </div>
 
         <button type="submit" class='btn btn-primary'>แก้ไข</button>
+
+        {% if poll.is_active == True %}
+            <a href="{% url 'close' poll.id %}" class='btn btn-danger'>ปิดโหวต</a>
+        {% endif %}
     </form>
+
     <br>
     <hr>
     <h1>ตัวเลือกทั้งหมด <a href="{% url 'add_choice' poll.id %}"> <i class="fa fa-plus-square" aria-hidden="true"></i> </a></h1>
@@ -75,13 +106,6 @@
                                 <a href="{% url 'choice_delete' choice.id %}" class='btn btn-danger'>ลบ</a>
                             </li>
                         </ul>
-                        <!-- <div class="card-footer">
-                            <small class="text-muted">
-                                Start at : {{ poll.start_date }} <br>
-                                Close at : {{ poll.end_date }} <br>
-                                Create by : {{ poll.create_by }}
-                            </small>
-                        </div> -->
                     </div>
                 </div>
             {% endfor %}

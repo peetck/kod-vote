@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        <b>{{ poll.subject }}</b>
+                                        <b>{{ poll.subject|truncatechars:25 }}</b>
                                     </h5>
                                     <p class="card-text">
                                         {{ poll.detail|truncatechars:20 }}
@@ -96,7 +96,7 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        <b>{{ poll.subject }}</b>
+                                        <b>{{ poll.subject|truncatechars:25 }}</b>
                                     </h5>
                                     <p class="card-text">
                                         {{ poll.detail|truncatechars:20 }}
@@ -109,7 +109,8 @@
                                 </div>
                                 <div class="card-footer">
                                     <small class="text-muted">
-                                        <b>หมดเวลาตอน</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br>
+                                        <b>เริ่ม</b> : {{ poll.start_date|date:'d/m/Y H:i' }} <br>
+                                        <b>สิ้นสุด</b> : {{ poll.end_date|date:'d/m/Y H:i' }} <br>
                                         <b>โดย</b> : {{ poll.create_by }}
                                     </small>
                                 </div>

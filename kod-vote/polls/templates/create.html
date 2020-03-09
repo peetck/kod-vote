@@ -10,7 +10,7 @@
         {% csrf_token %}
         <div class="form-group">
             <label>ชื่อ</label>
-            <input type="text" class="form-control" name='subject' placeholder="ชื่อกระทู้" required>
+            <input type="text" class="form-control" name='subject' placeholder="ชื่อกระทู้" required maxlength="50">
         </div>
         <div class="form-group">
             <label>รายละเอียด</label>
@@ -20,7 +20,7 @@
             <div class="form-group col-md-3">
                 <label for="start_date">เวลาเปิดกระทู้</label>
                 <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                    <input name='start_date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" required/>
+                    <input id='start_date' name='start_date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" required/>
                     <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>

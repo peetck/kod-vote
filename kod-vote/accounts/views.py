@@ -7,6 +7,8 @@ import datetime
 
 # Create your views here.
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('index')
     context = {}
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -31,6 +33,8 @@ def logout_view(request):
 
 def signup_view(request):
     context = {}
+    if request.user.is_authenticated:
+        return redirect('index')
     if (request.method == 'POST'):
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -71,6 +75,7 @@ def my_polls_view(request):
         poll.is_available()
 
     context = {
-        'polls' : polls
+        'polls' : polls,
+        'msg' : request.GET.get('msg')
     }
     return render(request, 'mypolls.html', context)

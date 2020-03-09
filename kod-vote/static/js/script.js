@@ -1,19 +1,15 @@
-$(function () {
-    $('#datetimepicker1').datetimepicker({
-        locale: 'th',
-        minDate : new Date(),
-        defaultDate: new Date()
-    });
-    $('#datetimepicker2').datetimepicker({
-        locale: 'th',
-        minDate : new Date()
-    });
+var current = new Date()
+$('#datetimepicker1').datetimepicker({
+    locale: 'th',
+    defaultDate : current,
+});
+$('#datetimepicker2').datetimepicker({
+    locale: 'th',
 });
 
-/* Auto popup modal if poll request password */
-$('#myModal').modal({
-    backdrop: 'static',
-    keyboard: false
+$('#datetimepicker1').on("change.datetimepicker", function(e) {
+    let date = e.date.clone();
+    $('#datetimepicker2').datetimepicker("minDate", date);
 });
 
 /* show file name on input:file */
