@@ -38,6 +38,8 @@ def create_view(request):
         start_date = datetime.strptime(request.POST.get('start_date'), '%d/%m/%Y %H:%M')
         end_date = datetime.strptime(request.POST.get('end_date'), '%d/%m/%Y %H:%M')
         password = request.POST.get('password').strip()
+        print(start_date)
+        print(end_date)
 
         poll = Poll(
                 subject=subject,

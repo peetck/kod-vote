@@ -34,9 +34,9 @@ class Poll_ChoiceAdmin(admin.ModelAdmin):
 
 class Poll_VoteAdmin(admin.ModelAdmin):
     list_display = [
-        'poll_id',
+        'vote_by',
         'choice_id',
-        'vote_by'
+        'poll_id'
     ]
 
 admin.site.register(Poll, PollAdmin)

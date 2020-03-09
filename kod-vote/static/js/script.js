@@ -22,4 +22,4 @@ $('#input-file').on('change',function(){
     var fileName = $(this).val().split('\\').pop();
     //replace the "Choose a file" label
     $(this).next('.custom-file-label').html(fileName);
-})
+});

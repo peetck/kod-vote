@@ -14,7 +14,7 @@
                         <a href="{% url 'poll_delete' poll.id %}">
                             <img src="{% static 'images/close.png' %}" alt="" class='delete-btn' width='35px'>
                         </a>
-                        <a class="mb-3 text-decoration-none text-dark" href="{% url 'edit' poll.id %}">
+                        <a class="mb-0 text-decoration-none text-dark" href="{% url 'edit' poll.id %}">
                             <div class="wrapper">
                                 <img class="card-img-top" src="{{ poll.picture.url }}">
                             </div>

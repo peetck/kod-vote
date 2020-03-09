@@ -16,13 +16,13 @@
                     <form action="{% url 'detail' poll.id %}" method="GET">
                         <div class="modal-body">
                             <div class="form-group">
-                                <label class="col-form-label">รหัสผ่าน:</label>
+                                <label class="col-form-label">รหัสผ่าน</label>
                                 <input type="password" class="form-control" name='password'>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <a href="{% url 'index' %}" class='btn btn-secondary'>
-                                Close
+                                ย้อนกลับ
                             </a>
                             <button type="submit" class='btn btn-primary'>ยืนยัน</button>
                         </div>
