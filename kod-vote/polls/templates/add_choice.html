@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class='mb-5'>เพิ่มตัวเลือกของกระทู้ ({{ poll }})</h1>
+    <h1 class='mb-5'>เพิ่มตัวเลือกของกระทู้ {{ poll }}</h1>
     <form action="{% url 'add_choice' poll.id %}" method='POST' enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">

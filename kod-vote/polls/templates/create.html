@@ -8,48 +8,82 @@
     <h1 class='mb-3'>สร้างกระทู้ <img width='45' src="{% static 'images/create_poll.png' %}" alt=""> </h1>
     <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="form-group">
-            <label>ชื่อ</label>
-            <input type="text" class="form-control" name='subject' placeholder="ชื่อกระทู้" required maxlength="50">
-        </div>
-        <div class="form-group">
-            <label>รายละเอียด</label>
-            <textarea class='form-control' name="detail" id="" cols="30" rows="10" required placeholder="รายละเอียดต่างๆเกี่ยวกับกระทู้"></textarea>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-3">
-                <label for="start_date">เวลาเปิดกระทู้</label>
-                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                    <input value='{% now "d/m/Y H:i" %}' id='start_date' name='start_date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" required/>
-                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 border-right">
+                    <div class="form-group">
+                        <label>ชื่อ</label>
+                        <input id='poll-subject' type="text" class="form-control" name='subject' placeholder="ชื่อกระทู้" required maxlength="50">
                     </div>
-                </div>
-            </div>
-            <div class="form-group col-md-3">
-                <label for="end_date">เวลาปิดกระทู้</label>
-                <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                    <input name='end_date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" required/>
-                    <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    <div class="form-group">
+                        <label>รายละเอียด</label>
+                        <textarea class='form-control' name="detail" id="poll-detail" cols="30" rows="10" required placeholder="รายละเอียดต่างๆเกี่ยวกับกระทู้"></textarea>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label for="start_date">เวลาเปิดกระทู้</label>
+                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                <input value='{% now "d/m/Y H:i" %}' id='start-date' name='start_date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" required/>
+                                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="end_date">เวลาปิดกระทู้</label>
+                            <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                                <input name='end_date' id='end-date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" required/>
+                                <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label for="password">รหัสผ่าน</label>
+                            <input id='poll-password' type="password" class="form-control" name='password' placeholder="ไม่มีรหัสผ่าน">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>รูปภาพ</label>
+                            <div class="custom-file">
+                                <input type="file" class='custom-file-input' name='picture' id="input-file">
+                                <label class="custom-file-label" for="input-file">อัพโหลดไฟล์</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class='btn btn-primary mb-5'>สร้างกระทู้</button>
                 </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-3">
-                <label for="password">รหัสผ่าน</label>
-                <input type="password" class="form-control" name='password' placeholder="ไม่มีรหัสผ่าน">
-            </div>
-            <div class="form-group ml-1">
-                <label>รูปภาพ</label>
-                <div class="custom-file">
-                    <input type="file" class='custom-file-input' name='picture' id="input-file">
-                    <label class="custom-file-label" for="input-file">อัพโหลดไฟล์</label>
-                </div>
-            </div>
-        </div>
+                <div class="col-lg-4">
+                    <div class="card h-100 w-100 text-dark mycard">
+                        <div class="wrapper">
+                            <img class="card-img-top" src="{% static 'images/poll_default.png' %}" id='preview'>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <b id='card-title'>ชื่อกระทู้</b>
+                            </h5>
+                            <p class="card-text" id='card-detail'>
+                                รายละเอียดต่างๆเกี่ยวกับกระทู้
+                            </p>
+                        </div>
+                        <div class="container mb-3 ml-1">
+                            <p class="card-text">
+                                <span class="badge badge-pill badge-warning text-light">สถานะ</span>
 
-        <button type="submit" class='btn btn-primary'>สร้างกระทู้</button>
+                                <span id='password-status' class="badge badge-pill badge-secondary text-light"></span>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">
+                                <b>เริ่ม</b> : <span id='poll-start-date'>{% now "d/m/Y H:i" %} </span> <br>
+                                <b>สิ้นสุด</b> : <span id='poll-end-date'> เวลาที่สิ้นสุดการโหวต </span> <br>
+                                <b>โดย</b> : {{ request.user }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 {% endblock %}

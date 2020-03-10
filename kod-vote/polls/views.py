@@ -19,7 +19,8 @@ def index_view(request):
 
     context = {
         'available' : available,
-        'closed' : closed
+        'closed' : closed,
+        'polls_length' : len(available) + len(closed)
     }
 
     return render(request, 'index.html', context)
@@ -53,9 +54,7 @@ def create_view(request):
 
         poll.save()
 
-        response = redirect('mypolls')
-        response['Location'] += f'?msg=success'
-        return response
+        return redirect('mypolls')
 
     return render(request, 'create.html')
 
@@ -105,24 +104,26 @@ def vote_view(request, choice_id):
             # already vote
             return redirect('detail', poll_id=poll.id)
 
-    poll.is_available() # check date
     success = 'success'
-    if poll.password == '':
-        vote = Poll_Vote.objects.create(
-            poll_id=poll,
-            choice_id=choice,
-            vote_by=request.user
-        )
-    else:
-        password = request.POST.get('password').strip()
-        if password == poll.password:
+    if poll.is_available():
+        if poll.password == '':
             vote = Poll_Vote.objects.create(
                 poll_id=poll,
                 choice_id=choice,
                 vote_by=request.user
             )
         else:
-            success = 'n-success'
+            password = request.POST.get('password').strip()
+            if password == poll.password:
+                vote = Poll_Vote.objects.create(
+                    poll_id=poll,
+                    choice_id=choice,
+                    vote_by=request.user
+                )
+            else:
+                success = 'n-success'
+    else:
+        success = 'n-success'
 
     response = redirect('detail', poll_id=poll.id)
     response['Location'] += f'?success={success}'
@@ -187,9 +188,7 @@ def poll_delete_view(request, poll_id):
     if poll.create_by == request.user:
         poll.delete()
 
-    response = redirect('mypolls')
-    response['Location'] += f'?msg=delete'
-    return response
+    return redirect('mypolls')
 
 @login_required
 def add_choice_view(request, poll_id):

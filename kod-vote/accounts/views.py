@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from polls.models import Poll
 import datetime
 
-# login page 
+# login page
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('index')
@@ -22,7 +22,7 @@ def login_view(request):
             else:
                 return redirect('index')
         context['error'] = 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง'
-        
+
     next_url = request.GET.get('next') # if have next_url send it to save in input:hidden
     context['next_url'] = next_url
     return render(request, 'login.html', context)
@@ -76,7 +76,6 @@ def my_polls_view(request):
         poll.is_available()
 
     context = {
-        'polls' : polls,
-        'msg' : request.GET.get('msg')
+        'polls' : polls
     }
     return render(request, 'mypolls.html', context)

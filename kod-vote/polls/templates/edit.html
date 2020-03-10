@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
     <h1>
-        แก้ไขกระทู้ ({{ poll.subject }})
+        แก้ไขกระทู้ {{ poll.subject }}
     </h1>
 
     <br>
@@ -42,54 +42,97 @@
 
     <form action="{% url 'edit' poll.id %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="form-group">
-            <label>ชื่อ</label>
-            <input type="text" class="form-control" name='subject' placeholder="Enter poll name" value="{{ poll.subject }}" maxlength="50">
-        </div>
-        <div class="form-group">
-            <label>รายละเอียด</label>
-            <textarea class='form-control' name="detail" id="" cols="30" rows="10">{{ poll.detail }}</textarea>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-3">
-                <label for="start_date">เวลาเปิดกระทู้</label>
-                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                    <input value='{{ poll.start_date|date:"d/m/Y H:i" }}' name='start_date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" required/>
-                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 border-right">
+                    <div class="form-group">
+                        <label>ชื่อ</label>
+                        <input value="{{ poll.subject }}" id='poll-subject' type="text" class="form-control" name='subject' placeholder="ชื่อกระทู้" required maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label>รายละเอียด</label>
+                        <textarea class='form-control' name="detail" id="poll-detail" cols="30" rows="10" required placeholder="รายละเอียดต่างๆเกี่ยวกับกระทู้">{{ poll.detail }}</textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label for="start_date">เวลาเปิดกระทู้</label>
+                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                <input value='{{ poll.start_date|date:"d/m/Y H:i" }}' id='start-date' name='start_date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" required/>
+                                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="end_date">เวลาปิดกระทู้</label>
+                            <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                                <input value='{{ poll.end_date|date:"d/m/Y H:i" }}' name='end_date' id='end-date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" required/>
+                                <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label for="password">รหัสผ่าน</label>
+                            <input id='poll-password' type="password" class="form-control" name='password' placeholder="ไม่มีรหัสผ่าน" value="{{ poll.password }}">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>รูปภาพ</label>
+                            <div class="custom-file">
+                                <input type="file" class='custom-file-input' name='picture' id="input-file">
+                                <label class="custom-file-label" for="input-file">{{ poll.picture }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class='btn btn-primary'>แก้ไข</button>
+                    {% if poll.is_active == True %}
+                        <a href="{% url 'close' poll.id %}" class='btn btn-danger'>ปิดโหวต</a>
+                    {% endif %}
+                </div>
+                <div class="col-lg-4">
+                    <div class="card h-100 w-100 text-dark mycard">
+                        <div class="wrapper">
+                            <img class="card-img-top" src="{{ poll.picture.url }}" id='preview'>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <b id='card-title'>{{ poll.subject|truncatechars:25 }}</b>
+                            </h5>
+                            <p class="card-text" id='card-detail'>
+                                {{ poll.detail|truncatechars:20 }}
+                            </p>
+                        </div>
+                        <div class="container mb-3 ml-1">
+                            <p class="card-text">
+
+                                {% if poll.is_active %}
+                                    <span class="badge badge-pill badge-success text-light">เปิด</span>
+                                {% else %}
+                                    <span class="badge badge-pill badge-danger text-light">ปิด</span>
+                                {% endif %}
+
+                                {% if poll.password != '' %}
+                                    <span id='password-status' class="badge badge-pill badge-secondary text-light">
+                                        <i class="fa fa-lock" aria-hidden="true"></i>
+                                    </span>
+                                {% else %}
+                                    <span id='password-status' class="badge badge-pill badge-secondary text-light"></span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">
+                                <b>เริ่ม</b> : <span id='poll-start-date'>{{ poll.start_date|date:'d/m/Y H:i' }} </span> <br>
+                                <b>สิ้นสุด</b> : <span id='poll-end-date'>{{ poll.end_date|date:'d/m/Y H:i' }} </span> <br>
+                                <b>โดย</b> : {{ poll.create_by }}
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="form-group col-md-3">
-                <label for="end_date">เวลาปิดกระทู้</label>
-                <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                    <input value='{{ poll.end_date|date:"d/m/Y H:i" }}' name='end_date' type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" required/>
-                    <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
-                </div>
-            </div>
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-3">
-                <label for="password">รหัสผ่าน</label>
-                <input type="password" class="form-control" name='password' placeholder="ไม่มีรหัสผ่าน" value="{{ poll.password }}">
-            </div>
-            <div class="form-group ml-1">
-                <label>รูปภาพ</label>
-                <div class="custom-file">
-
-                    <input type="file" class='custom-file-input' name='picture' id="input-file">
-                    <label class="custom-file-label" for="input-file">{{ poll.picture }}</label>
-                </div>
-            </div>
-        </div>
-
-        <button type="submit" class='btn btn-primary'>แก้ไข</button>
-
-        {% if poll.is_active == True %}
-            <a href="{% url 'close' poll.id %}" class='btn btn-danger'>ปิดโหวต</a>
-        {% endif %}
     </form>
 
     <br>
@@ -98,6 +141,12 @@
     <br>
     <div class="container text-center">
         <div class="row">
+            {% if poll.poll_choice_set.all|length == 0 %}
+                <div class='col-lg-12 jumbotron text-center border border-dark'>
+                    <img src="{% static 'images/choice.png' %}" width='15%' class='mb-5'>
+                    <h4>ไม่มีตัวเลือก</h4>
+                </div>
+            {% endif %}
             {% for choice in poll.poll_choice_set.all %}
                 <div class="col-md-3 my-3">
                     <div class="card h-100 w-100 mycard">

@@ -8,6 +8,14 @@ body{
     animation: fadein .5s;
 }
 
+textarea{
+    resize : none;
+}
+
+.white-space{
+    white-space: pre;
+}
+
 @keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
