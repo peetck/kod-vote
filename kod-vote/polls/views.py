@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from .models import Poll, Poll_Vote, Poll_Choice
 from django.contrib.auth.decorators import login_required, permission_required
 import pygal
-from django.utils import timezone
 from datetime import datetime
 import pytz
 from django.contrib.auth.models import User
@@ -36,8 +35,8 @@ def create_view(request):
         except:
             picture = None
 
-        start_date = datetime.strptime(request.POST.get('start_date'), '%d/%m/%Y %H:%M')
-        end_date = datetime.strptime(request.POST.get('end_date'), '%d/%m/%Y %H:%M')
+        start_date = pytz.timezone('Asia/Bangkok').localize(datetime.strptime(request.POST.get('start_date'), '%d/%m/%Y %H:%M'))
+        end_date = pytz.timezone('Asia/Bangkok').localize(datetime.strptime(request.POST.get('end_date'), '%d/%m/%Y %H:%M'))
         password = request.POST.get('password').strip()
 
         poll = Poll(
@@ -79,8 +78,7 @@ def detail_view(request, poll_id):
 
     # pygal
     if not poll.is_available() or already_vote:
-        chart = pygal.HorizontalBar(width=1000, min_scale=1)
-        chart.title = f"ผลลัพธ์ของ : {poll.subject}"
+        chart = pygal.Bar()
         for choice in choices:
             chart.add(choice.subject, choice.poll_vote_set.all().count())
             context['graph'] = chart.render().decode('utf-8')
@@ -138,15 +136,15 @@ def edit_view(request, poll_id):
     context = {
         'poll' : poll,
         'msg' : request.GET.get('msg')
-        }
+    }
     if request.method == 'POST':
         subject = request.POST.get('subject')
         detail = request.POST.get('detail')
 
         password = request.POST.get('password')
 
-        start_date = (datetime.strptime(request.POST.get('start_date'), '%d/%m/%Y %H:%M'))
-        end_date =  (datetime.strptime(request.POST.get('end_date'), '%d/%m/%Y %H:%M'))
+        start_date = pytz.timezone('Asia/Bangkok').localize(datetime.strptime(request.POST.get('start_date'), '%d/%m/%Y %H:%M'))
+        end_date = pytz.timezone('Asia/Bangkok').localize(datetime.strptime(request.POST.get('end_date'), '%d/%m/%Y %H:%M'))
 
         try:
             picture = request.FILES['picture']
@@ -164,6 +162,8 @@ def edit_view(request, poll_id):
 
         context['success'] = 'แก้ไขกระทู้เรียบร้อยแล้ว'
 
+    poll.is_available()
+
     return render(request, 'edit.html', context)
 
 @login_required
@@ -172,10 +172,13 @@ def close_view(request, poll_id):
 
     if poll.create_by == request.user and poll.is_active == True:
         poll.is_active = False
-        poll.end_date = timezone.now()
+        poll.end_date = pytz.timezone('Asia/Bangkok').localize(datetime.now())
         poll.save()
+        poll.is_available()
 
-    return redirect('mypolls')
+    response = redirect('edit', poll_id=poll_id)
+    response['Location'] += f'?msg=close'
+    return response
 
 @login_required
 def poll_delete_view(request, poll_id):

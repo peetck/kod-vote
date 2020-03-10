@@ -1,12 +1,11 @@
-var current = new Date()
+/* datetime picker  */
 $('#datetimepicker1').datetimepicker({
     locale: 'th',
-    defaultDate : current,
 });
 $('#datetimepicker2').datetimepicker({
     locale: 'th',
+    minDate: moment($("#datetimepicker1").find("input").val(), "DD/MM/YYYY H:m")
 });
-
 $('#datetimepicker1').on("change.datetimepicker", function(e) {
     let date = e.date.clone();
     $('#datetimepicker2').datetimepicker("minDate", date);

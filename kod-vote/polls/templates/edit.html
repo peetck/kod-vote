@@ -1,4 +1,5 @@
 {% extends 'base_layout.html' %}
+{% load static %}
 {% block title %}
     แก้ไข {{ poll.subject }}
 {% endblock %}
@@ -26,6 +27,13 @@
     {% elif msg == 'delete' %}
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="fa fa-exclamation-circle"></i> ลบตัวเลือกเรียบร้อยแล้ว
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% elif msg == 'close' %}
+        <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+            <i class="fa fa-exclamation-circle"></i> ปิดโหวตกระทู้ "{{ poll.subject }}" เรียบร้อยแล้ว
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -65,7 +73,7 @@
         <div class="form-row">
             <div class="form-group col-md-3">
                 <label for="password">รหัสผ่าน</label>
-                <input type="password" class="form-control" name='password' placeholder="Password" value="{{ poll.password }}">
+                <input type="password" class="form-control" name='password' placeholder="ไม่มีรหัสผ่าน" value="{{ poll.password }}">
             </div>
             <div class="form-group ml-1">
                 <label>รูปภาพ</label>
@@ -93,6 +101,9 @@
             {% for choice in poll.poll_choice_set.all %}
                 <div class="col-md-3 my-3">
                     <div class="card h-100 w-100 mycard">
+                        <a href="{% url 'choice_delete' choice.id %}">
+                            <img src="{% static 'images/close.png' %}" alt="" class='delete-btn' width='35px'>
+                        </a>
                         <div class="wrapper">
                             <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
                         </div>
@@ -101,11 +112,6 @@
                                 {{ choice.subject }}
                             </p>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <a href="{% url 'choice_delete' choice.id %}" class='btn btn-danger'>ลบ</a>
-                            </li>
-                        </ul>
                     </div>
                 </div>
             {% endfor %}
