@@ -82,43 +82,22 @@
                                     <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
                                 </div>
                                 <div class="card-body">
-                                    <p class="card-title">
+                                    <h5 class="card-title">
                                         {{ choice.subject }}
-                                    </p>
+                                    </h5>
                                 </div>
                             </div>
                         </a>
                     {% else %}
-                        <div type='button' class='col-md-3 my-3' data-toggle="modal" data-target="#myModal">
+                        <div type='button' class='col-md-3 my-3' data-toggle="modal" data-target="#myModal{{forloop.counter}}">
                             <div class="card h-100 w-100 text-dark mycard text-center">
                                 <div class="wrapper">
                                     <img class=" card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
                                 </div>
                                 <div class="card-body">
-                                    <p class="card-title">
+                                    <h5 class="card-title">
                                         {{ choice.subject }}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal fade in" id="myModal">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="myModalLabel">กระทู้นี้ต้องการรหัสผ่านเพื่อโหวต</h5>
-                                    </div>
-                                    <form action="{% url 'vote' choice.id %}" method="POST">
-                                        {% csrf_token %}
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label class="col-form-label">รหัสผ่าน</label>
-                                                <input type="password" class="form-control" name='password'>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class='btn btn-primary'>โหวต</button>
-                                        </div>
-                                    </form>
+                                    </h5>
                                 </div>
                             </div>
                         </div>
@@ -130,9 +109,9 @@
                                 <img class="card-img-top" src="{{ choice.image.url }}" alt="Card image cap">
                             </div>
                             <div class="card-body">
-                                <p class="card-title">
+                                <h5 class="card-title">
                                     {{ choice.subject }}
-                                </p>
+                                </h5>
                                 <p class="card-text">
                                     {% if already_vote %}
                                         <span class='text-success'>
@@ -148,6 +127,31 @@
                         </div>
                     </div>
                 {% endif %}
+                <div class="modal fade in" id="myModal{{forloop.counter}}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    กรุณากรอกรหัสผ่านเพื่อโหวต  <i class="fa fa-lock " aria-hidden="true"></i>
+                                </h5>
+                            </div>
+                            <form action="{% url 'vote' choice.id %}" method="POST">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="password">รหัสผ่าน</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" name='password' placeholder="รหัสผ่าน" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class='btn btn-primary'>โหวต</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
         </div>
     </div>

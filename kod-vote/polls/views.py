@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 # Create your views here.
 @login_required
 def index_view(request):
-    polls = Poll.objects.all().order_by('-start_date')
+    polls = Poll.objects.all().order_by('-create_date')
     available, closed = [], []
     for poll in polls:
         if poll.is_available():
@@ -97,6 +97,7 @@ def detail_view(request, poll_id):
 @login_required
 def vote_view(request, choice_id):
     choice = Poll_Choice.objects.get(id=choice_id)
+    print(choice_id)
     poll = choice.poll_id
 
     for vote in request.user.poll_vote_set.all():

@@ -69,7 +69,7 @@ def signup_view(request):
 
 @login_required
 def my_polls_view(request):
-    polls = Poll.objects.filter(create_by=request.user).order_by('-start_date')
+    polls = Poll.objects.filter(create_by=request.user).order_by('-create_date')
 
     # check date
     for poll in polls:
