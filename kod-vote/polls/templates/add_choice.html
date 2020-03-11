@@ -5,12 +5,13 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class='mb-5'>เพิ่มตัวเลือกของกระทู้ {{ poll }}</h1>
+    <h1 class='mb-5'>เพิ่มตัวเลือก <img width='45' src="{% static 'images/create_choice.png' %}" alt=""></h1>
     <form action="{% url 'add_choice' poll.id %}" method='POST' enctype="multipart/form-data">
         {% csrf_token %}
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 border-right">
+                    <h4 class='mb-5'> กระทู้ {{ poll.subject }} </h4>
                     <div class="form-group">
                         <label>ชื่อตัวเลือก</label>
                         <input id='choice-subject' type="text" class="form-control" name='subject' placeholder="ชื่อตัวเลือก" required maxlength="40">

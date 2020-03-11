@@ -28,7 +28,7 @@ def index_view(request):
 @login_required
 def create_view(request):
     if request.method == 'POST':
-        subject = request.POST.get('subject')
+        subject = request.POST.get('subject').strip()
         detail = request.POST.get('detail')
 
         try:
@@ -139,7 +139,7 @@ def edit_view(request, poll_id):
         'msg' : request.GET.get('msg')
     }
     if request.method == 'POST':
-        subject = request.POST.get('subject')
+        subject = request.POST.get('subject').strip()
         detail = request.POST.get('detail')
 
         password = request.POST.get('password')

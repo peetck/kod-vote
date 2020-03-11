@@ -91,3 +91,18 @@ $('#choice-subject').on('input', function() {
     var text = $('#choice-subject').val();
     $("#card-title").html(text);
 });
+
+$('#password-see').click(function(){
+    var password_eye = $('#poll-password').attr('type');
+    if (password_eye == 'password'){
+        $('#poll-password').attr("type","text");
+        // icon
+        $('#password-eye').removeClass('fa-eye-slash');
+        $('#password-eye').addClass('fa-eye');
+    }
+    else{
+        $('#poll-password').attr("type","password");
+        $('#password-eye').removeClass('fa-eye');
+        $('#password-eye').addClass('fa-eye-slash');
+    }
+});

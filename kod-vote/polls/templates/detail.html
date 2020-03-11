@@ -40,7 +40,9 @@
                 <p class="display-5 mt-5"> สร้างโดย : {{ poll.create_by }}</p>
             </div>
             <div class="col-lg-4 pl-5">
-                <img src="{{ poll.picture.url }}" alt="" class='img-fluid rotate-img'>
+                <div class="wrapper rotate-img">
+                    <img src="{{ poll.picture.url }}" alt="">
+                </div>
             </div>
         </div>
     </div>

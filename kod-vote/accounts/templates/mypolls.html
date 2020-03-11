@@ -16,11 +16,11 @@
             {% endif %}
             {% for poll in polls %}
                 <div class='col-lg-3 my-3'>
-                    <div class="card h-100 w-100 text-dark mycard">
+                    <div class="card h-100 w-100 text-dark mycard" style='border:none;'>
                         <a href="{% url 'poll_delete' poll.id %}">
                             <img src="{% static 'images/close.png' %}" alt="" class='delete-btn' width='35px'>
                         </a>
-                        <a class="mb-0 text-decoration-none text-dark" href="{% url 'edit' poll.id %}">
+                        <a class="card h-100 w-100 mb-0 text-decoration-none text-dark" href="{% url 'edit' poll.id %}">
                             <div class="wrapper">
                                 <img class="card-img-top" src="{{ poll.picture.url }}">
                             </div>
@@ -38,6 +38,11 @@
                                         <span class="badge badge-pill badge-success text-light">เปิด</span>
                                     {% else %}
                                         <span class="badge badge-pill badge-danger text-light">ปิด</span>
+                                    {% endif %}
+                                    {% if poll.password != '' %}
+                                        <span class="badge badge-pill badge-secondary text-light">
+                                            <i class="fa fa-lock " aria-hidden="true"></i>
+                                        </span>
                                     {% endif %}
                                 </p>
                             </div>
