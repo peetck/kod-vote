@@ -1,5 +1,5 @@
 {% extends 'base_layout.html' %}
-
+{% load static %}
 {% block title %}
     เพิ่มตัวเลือก
 {% endblock %}
@@ -8,19 +8,37 @@
     <h1 class='mb-5'>เพิ่มตัวเลือกของกระทู้ {{ poll }}</h1>
     <form action="{% url 'add_choice' poll.id %}" method='POST' enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="form-group">
-            <label>ชื่อตัวเลือก</label>
-            <input type="text" class="form-control" name='subject' placeholder="Enter poll name" required maxlength="40">
-        </div>
-        <div class="form-row">
-            <div class="form-group ml-1">
-                <p>รูปภาพ</p>
-                <div class="custom-file">
-                    <input type="file" class='custom-file-input' name='image' id="input-file">
-                    <label class="custom-file-label" for="input-file">อัพโหลดไฟล์</label>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 border-right">
+                    <div class="form-group">
+                        <label>ชื่อตัวเลือก</label>
+                        <input id='choice-subject' type="text" class="form-control" name='subject' placeholder="ชื่อตัวเลือก" required maxlength="40">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group ml-1">
+                            <p>รูปภาพ</p>
+                            <div class="custom-file">
+                                <input type="file" class='custom-file-input' name='image' id="input-file">
+                                <label class="custom-file-label" for="input-file">อัพโหลดไฟล์</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class='btn btn-primary mt-2'>เพิ่มตัวเลือก</button>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card h-100 w-100 text-dark mycard text-center">
+                        <div class="wrapper">
+                            <img class="card-img-top" src="{% static 'images/choice_default.png' %}" id='preview'>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-title" id='card-title'>
+                                ชื่อตัวเลือก
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <button type="submit" class='btn btn-primary mt-2'>เพิ่มตัวเลือก</button>
     </form>
 {% endblock %}

@@ -1,4 +1,6 @@
 /* datetime picker  */
+
+let end_date_temp = $("#end-date").val();
 $('#datetimepicker1').datetimepicker({
     locale: 'th',
 });
@@ -6,16 +8,35 @@ $('#datetimepicker2').datetimepicker({
     locale: 'th',
     minDate: moment($("#datetimepicker1").find("input").val(), "DD/MM/YYYY H:m")
 });
+
+$("#end-date").val(end_date_temp);
+
+function check_status(start_date, end_date){
+    $('#status').removeClass('badge-warning');
+    var current = new Date();
+    if (start_date <= current && current < end_date){ // if poll status - open
+        $('#status').removeClass('badge-danger');
+        $('#status').addClass('badge-success');
+        $('#status').html('เปิด');
+    }
+    else{ // status - close
+        $('#status').removeClass('badge-success');
+        $('#status').addClass('badge-danger');
+        $('#status').html('ปิด');
+    }
+}
 $('#datetimepicker1').on("change.datetimepicker", function(e) {
     let date = e.date.clone();
     $('#datetimepicker2').datetimepicker("minDate", date);
     // set value to preview
     $("#poll-start-date").html($("#datetimepicker1").find("input").val());
+    check_status(moment($("#datetimepicker1").find("input").val(), "DD/MM/YYYY H:m"), moment($("#datetimepicker2").find("input").val(), "DD/MM/YYYY H:m"));
 });
 
 $('#datetimepicker2').on("change.datetimepicker", function(e) {
     // set value to preview
     $("#poll-end-date").html($("#datetimepicker2").find("input").val());
+    check_status(moment($("#datetimepicker1").find("input").val(), "DD/MM/YYYY H:m"), moment($("#datetimepicker2").find("input").val(), "DD/MM/YYYY H:m"));
 });
 
 /* show file name on input:file */
@@ -64,4 +85,9 @@ $('#poll-password').on('input', function(){
     else{
         $('#password-status').html('<i class="fa fa-lock" aria-hidden="true"></i>');
     }
+});
+
+$('#choice-subject').on('input', function() {
+    var text = $('#choice-subject').val();
+    $("#card-title").html(text);
 });
