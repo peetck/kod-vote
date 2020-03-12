@@ -13,7 +13,7 @@ class Poll(models.Model):
     end_date = models.DateTimeField(blank=False, null=False)
     password = models.CharField(max_length=255, blank=False, null=False)
     create_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    create_date = models.DateTimeField(auto_now=True)
+    create_date = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):

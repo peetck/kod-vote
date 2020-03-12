@@ -3,7 +3,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from polls.models import Poll
-import datetime
 
 # login page
 def login_view(request):

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Poll, Poll_Vote, Poll_Choice
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 import pygal
 from datetime import datetime
 import pytz
@@ -77,7 +77,7 @@ def detail_view(request, poll_id):
 
     # pygal
     if not poll.is_available() or already_vote:
-        chart = pygal.Bar()
+        chart = pygal.Pie()
         for choice in choices:
             chart.add(choice.subject, choice.poll_vote_set.all().count())
             context['graph'] = chart.render().decode('utf-8')

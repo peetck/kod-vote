@@ -14,6 +14,7 @@ class PollAdmin(admin.ModelAdmin):
         'detail',
         'start_date',
         'end_date',
+        'create_date',
         'is_active',
         'create_by'
     ]
