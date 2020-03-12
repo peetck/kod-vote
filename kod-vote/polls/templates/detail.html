@@ -37,11 +37,42 @@
                     <span> {{ poll.subject }}</span>
                 </h1>
                 <p class="mt-5 display-5 white-space">{{ poll.detail }}</p>
-                <p class="display-5 mt-5"> สร้างโดย : {{ poll.create_by }}</p>
             </div>
             <div class="col-lg-4 pl-5">
-                <div class="wrapper rotate-img">
-                    <img src="{{ poll.picture.url }}" alt="">
+                <div class="card h-100 w-100 text-dark mycard">
+                    <div class="wrapper">
+                        <img class="card-img-top" src="{{ poll.picture.url }}" id='preview'>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <b id='card-title'>{{ poll.subject|truncatechars:25 }} </b>
+                        </h5>
+                        <p class="card-text" id='card-detail'>
+                            {{ poll.detail|truncatechars:20 }}
+                        </p>
+                    </div>
+                    <div class="container mb-3 ml-1">
+                        <p class="card-text">
+                            {% if poll.is_active %}
+                                <span class="badge badge-pill badge-success text-light">เปิด</span>
+                            {% else %}
+                                <span class="badge badge-pill badge-danger text-light">ปิด</span>
+                            {% endif %}
+
+                            {% if poll.password != '' %}
+                                <span class="badge badge-pill badge-secondary text-light">
+                                    <i class="fa fa-lock " aria-hidden="true"></i>
+                                </span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">
+                            <b>เริ่ม</b> : <span id='poll-start-date'> {{ poll.start_date|date:'d/m/Y H:i' }}</span> <br>
+                            <b>สิ้นสุด</b> : <span id='poll-end-date'> {{ poll.end_date|date:'d/m/Y H:i' }} </span> <br>
+                            <b>โดย</b> : {{ poll.create_by }}
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>
